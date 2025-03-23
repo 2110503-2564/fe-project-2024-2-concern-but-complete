@@ -1,23 +1,18 @@
-"use client";
-import React from "react";
-import { Hotel } from "../../interface";
-import { useRouter } from "next/navigation";
-import { MapPin, Phone } from "lucide-react";
+'use client'
+import React from 'react'
+import { Hotel } from '../../interface'
+import { useRouter } from 'next/navigation'
+import { MapPin, Phone } from 'lucide-react'
 
-function HotelCard({ hotel }: { hotel: Hotel }) {
-  const router = useRouter();
+function HotelCard({hotel}:{hotel:Hotel}) {
+    const router = useRouter()
 
-  const handleClick = () => {
-    router.push(`/hotels/${hotel.id}`);
-  };
-  const addressText = hotel.address
-    ? `${hotel.address.street}, ${hotel.address.district}, ${hotel.address.province} ${hotel.address.postal_code}`
-    : "No address info";
+    const handleClick = () => {
+        router.push(`/hotels/${hotel.id}`)
+    }
+    const addressText = hotel.address ? `${hotel.address.street}, ${hotel.address.district}, ${hotel.address.province} ${hotel.address.postal_code}`: "No address info";
   return (
-    <div
-      className="max-w-sm w-full bg-white text-black rounded-lg shadow-md overflow-hidden"
-      onClick={handleClick}
-    >
+    <div className="max-w-sm w-full bg-white text-black rounded-lg shadow-md overflow-hidden" onClick={handleClick}>
       <div className="relative h-52 bg-gray-600">
         {/* <img
           src={hotel.image}
@@ -37,7 +32,8 @@ function HotelCard({ hotel }: { hotel: Hotel }) {
         </div>
       </div>
     </div>
-  );
+    
+  )
 }
 
-export default HotelCard;
+export default HotelCard

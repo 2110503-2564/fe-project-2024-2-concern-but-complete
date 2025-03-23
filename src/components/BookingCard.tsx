@@ -18,7 +18,7 @@ function BookingCard({
   onCancel,
 }: BookingCardProps) {
   return (
-    <div className="w-full p-4 text-black">
+    <div className="w-85 p-4 text-black">
       <div className="bg-white p-6 rounded-lg shadow-[0_0_5px_0_rgba(0,0,0,0.3)]">
         <h3 className="font-bold text-xl mb-2">{hotelName}</h3>
         <div className="mb-4">

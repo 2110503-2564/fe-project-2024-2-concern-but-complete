@@ -82,58 +82,58 @@ export default function BookingDetailPage({
         </button>
       </div>
 
-      <h1 className="text-2xl font-bold my-5 text-gray-800">Booking Details</h1>
+      <h1 className="text-2xl font-bold my-5 ">Booking Details</h1>
 
       <div className="flex justify-between">
         <div className="w-3/4">
           <div className="info-section shadow-[0_0_3px_0_rgba(0,0,0,0.2)] p-5 rounded-xl mr-5 h-45 ">
-            <h3 className="text-2xl font-semibold text-black mb-3">
+            <h3 className="text-2xl font-semibold mb-3">
               Hotel Information
             </h3>
-            <p className="text-gray-700 mb-2 text-lg flex items-center">
+            <p className=" mb-2 text-lg flex items-center">
               <Building2 className="w-5 h-5 mr-2" />
               <strong>{booking?.hotelName}</strong>
             </p>
-            <p className="text-gray-700 mb-2 text-lg flex">
+            <p className=" mb-2 text-lg flex">
               <MapPin className="w-5 h-5 mr-2" />
               <span>{booking?.location}</span>
             </p>
-            <p className="text-gray-700 mb-2 text-lg flex">
+            <p className=" mb-2 text-lg flex">
               <Phone className="w-5 h-5 mr-2" />
               <span>{booking?.guestPhone}</span>
             </p>
           </div>
           <div className="flex justify-between h-50">
             <div className="info-section m-5 ml-0 w-1/2 shadow-[0_0_3px_0_rgba(0,0,0,0.2)] p-5 rounded-xl">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+              <h3 className="text-lg font-semibold mb-2">
                 Stay Details
               </h3>
-                <p className="text-gray-600 mb-1 flex items-center">
+                <p className="mb-1 flex items-center">
                 <Calendar className="w-5 h-5 mr-2" />
                 <strong className="mr-1">Check-in:</strong> {booking?.checkIn}
                 </p>
-                <p className="text-gray-600 mb-1 flex items-center">
+                <p className="mb-1 flex items-center">
                 <Calendar className="w-5 h-5 mr-2" />
                 <strong className="mr-1">Check-out:</strong> {booking?.checkOut}
                 </p>
-                <p className="text-gray-600 mb-1 flex items-center">
+                <p className="mb-1 flex items-center">
                 <Clock className="w-5 h-5 mr-2" />
                 <strong className="mr-1">Duration:</strong> {calculateNights(booking?.checkIn, booking?.checkOut)} Nights
                 </p>
             </div>
             <div className="info-section m-5 ml-0 w-1/2 shadow-[0_0_3px_0_rgba(0,0,0,0.2)] p-5 rounded-xl">
-              <h3 className="text-lg font-semibold text-gray-700 mb-2">
+              <h3 className="text-lg font-semibold mb-2">
                 Guest Information
               </h3>
-                <p className="text-gray-700 flex items-center font-bold">
+                <p className="flex items-center font-bold">
                 <User className="w-5 h-5 mr-2 mb-2" />
                 {booking?.guestName}
                 </p>
-                <p className="text-gray-700 flex items-center">
+                <p className="flex items-center">
                 <Mail className="w-5 h-5 mr-2 mb-2" />
                  {booking?.guestEmail}
                 </p>
-                <p className="text-gray-700 flex items-center">
+                <p className="flex items-center">
                 <Phone className="w-5 h-5 mr-2 mb-2" />
                 {booking?.guestPhone}
                 </p>
@@ -141,7 +141,7 @@ export default function BookingDetailPage({
           </div>
         </div>
 
-        <div className="w-1/3 p-5 rounded-xl shadow-[0_0_3px_0_rgba(0,0,0,0.2)] text-gray-700 h-65">
+        <div className="w-1/3 p-5 rounded-xl shadow-[0_0_3px_0_rgba(0,0,0,0.2)] h-65">
           <h3 className="text-lg font-semibold ">Edit Booking</h3>
           <label htmlFor="checkin" className="text-sm">
             Check-in:

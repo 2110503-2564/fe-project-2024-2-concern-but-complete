@@ -8,8 +8,7 @@ import NavigateBtn from './NavigateBtn';
 function UserNavigate() {
   const router = useRouter(); 
 
-  const handleClick = (buttonLabel: string, route: string) => {
-    alert(`You clicked on: ${buttonLabel}`);
+  const handleClick = (route: string) => {
     router.push(route); 
   };
 
@@ -24,7 +23,7 @@ function UserNavigate() {
           className="object-cover"
         />
       </div>
-      <div className="mt-2 justify-start text-sky-800 text-3xl font-semibold mb-10">
+      <div className="mt-2 justify-start text-3xl font-semibold mb-10">
         Name of User
       </div>
       <div className="flex flex-col">
@@ -32,25 +31,25 @@ function UserNavigate() {
         <NavigateBtn
           icon={<House className="w-5 mr-4" />}
           label="Dashboard"
-          onClick={() => handleClick("Dashboard", "/user")}
+          onClick={() => handleClick("/user")}
         />
         {/* Profile Button - Navigates to /user/profile */}
         <NavigateBtn
           icon={<SquareUser className="w-5 mr-4" />}
           label="Profile Settings"
-          onClick={() => handleClick("Profile", "/user/profile")}
+          onClick={() => handleClick("/user/profile")}
         />
         {/* Manage Bookings Button */}
         <NavigateBtn
           icon={<Calendar className="w-5 mr-4" />}
           label="Manage Bookings"
-          onClick={() => handleClick("Manage Bookings", "/user/bookings")}
+          onClick={() => handleClick("/user/bookings")}
         />
         {/* Log Out Button - Navigates to the main page */}
         <NavigateBtn
           icon={<LogOut className="w-5 mr-4" />}
           label="Log Out"
-          onClick={() => handleClick("Log Out", "/")} // Navigates to main/home page
+          onClick={() => handleClick("/")} // Navigates to main/home page
         />
       </div>
     </div>

@@ -1,5 +1,5 @@
 import HotelCard from "@/components/HotelCard";
-import { Hotel } from "../../interface";
+import { Hotel, HotelData } from "../../interface";
 import {
   ArrowRightCircle,
   Calendar,
@@ -33,7 +33,7 @@ const Banner = () => {
   );
 };
 
-const mockHotels: Hotel[] = [
+const mockHotels: HotelData[] = [
   {
     id: "1",
     name: "Triamudom",

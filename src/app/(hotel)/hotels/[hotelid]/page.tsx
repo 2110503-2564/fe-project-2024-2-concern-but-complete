@@ -1,12 +1,11 @@
 "use client";
 import React, { use, useEffect, useState } from "react";
-import Link from "next/link";
 import { MapPin, Phone } from "lucide-react";
 import { Dayjs } from "dayjs";
 import dayjs from "dayjs";
 import DateReserve from "@/components/DateReserve";
 import { getHotel } from "@/libs/hotelService";
-import { Hotel } from "../../../../../interface";
+import { HotelData } from "../../../../../interface";
 import { useRouter } from "next/navigation";
 
 export default function HotelDetailPage({ params }: { params: Promise<{ hotelid: string }> }) {
@@ -16,12 +15,12 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
 
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
-  const [hotel, setHotel] = useState<Hotel | null>(null);
+  const [hotel, setHotel] = useState<HotelData | null>(null);
 
   useEffect(() => {
     const fetchHotel = async () => {
-      const hotel = await getHotel(unwrappedParams.hotelid);
-      setHotel(hotel as unknown as Hotel);
+      const hotelResponse = await getHotel(unwrappedParams.hotelid);
+      setHotel(hotelResponse);
     }
     fetchHotel();
   },[unwrappedParams.hotelid]);
@@ -57,8 +56,8 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
     return false;
   };
 
-  const addressText = hotel?.data?.address
-    ? `${hotel?.data?.address?.street}, ${hotel?.data?.address?.district}, ${hotel?.data?.address?.province} ${hotel?.data?.address?.postal_code}`
+  const addressText = hotel?.address
+    ? `${hotel?.address?.street}, ${hotel?.address?.district}, ${hotel?.address?.province} ${hotel?.address?.postal_code}`
     : "No address info";
 
   return (
@@ -68,10 +67,9 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
           &larr; Back
         </button>
       </div>
-
       <div className="mt-8 flex flex-col md:flex-row gap-8">
         <div className="flex-1">
-          <h1 className="text-3xl font-bold mb-4">{hotel?.data?.name}</h1>
+          <h1 className="text-3xl font-bold mb-4">{hotel?.name}</h1>
           <div className="w-full h-[300px] bg-gray-300 rounded-3xl text-gray-700 flex items-center justify-center mb-4 md:w-4xl md:h-[500px]">
             pic
           </div>
@@ -81,7 +79,7 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
           </div>
           <div className="flex items-center">
             <Phone />
-            <span className="text-gray-700 mt-2 text-lg font-medium ml-4">{hotel?.data?.tel}</span>
+            <span className="text-gray-700 mt-2 text-lg font-medium ml-4">{hotel?.tel}</span>
           </div>
         </div>
 

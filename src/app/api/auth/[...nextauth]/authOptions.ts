@@ -2,6 +2,11 @@ import { loginUser } from "@/libs/authService";
 import { AuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
+export interface UserResponse {
+  name: string;
+  isAdmin: boolean;
+}
+
 export const authOptions: AuthOptions = {
   providers: [
     CredentialsProvider({
@@ -36,7 +41,7 @@ export const authOptions: AuthOptions = {
       return { ...token, ...user };
     },
     async session({ session, token, user }) {
-      session.user = token as any;
+      session.user = token as unknown as UserResponse;
       return session;
     },
   },

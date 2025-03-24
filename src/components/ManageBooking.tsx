@@ -47,7 +47,7 @@ function ManageBookings() {
 
     const handleViewDetails = (id: string) => {
         alert(`Viewing details for booking with ID: ${id}`);
-        router.push(`/user/bookings/${id}`);
+        router.push(`/bookings/${id}`);
     };
 
     const handleCancel = (id: string) => {

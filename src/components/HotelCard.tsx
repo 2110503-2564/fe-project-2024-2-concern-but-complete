@@ -8,27 +8,27 @@ function HotelCard({hotel}:{hotel:Hotel}) {
     const router = useRouter()
 
     const handleClick = () => {
-        router.push(`/hotels/${hotel.id}`)
+        router.push(`/hotels/${hotel.data.id}`)
     }
-    const addressText = hotel.address ? `${hotel.address.street}, ${hotel.address.district}, ${hotel.address.province} ${hotel.address.postal_code}`: "No address info";
+    const addressText = hotel.data.address ? `${hotel.data.address.street}, ${hotel.data.address.district}, ${hotel.data.address.province} ${hotel.data.address.postal_code}`: "No address info";
   return (
     <div className="max-w-sm w-full bg-white text-black rounded-lg shadow-md overflow-hidden" onClick={handleClick}>
       <div className="relative h-52 bg-gray-600">
         {/* <img
-          src={hotel.image}
+          src={hotel.data.image}
           alt="hotel"
           className="w-full h-full object-cover"
         /> */}
       </div>
       <div className="p-4">
-        <h2 className="text-2xl font-semibold mb-2">{hotel.name}</h2>
+        <h2 className="text-2xl font-semibold mb-2">{hotel.data.name}</h2>
         <div className="flex items-center mb-2">
           <MapPin />
           <span className="ml-2">{addressText}</span>
         </div>
         <div className="flex items-center">
           <Phone />
-          <span className="ml-2">{hotel.tel}</span>
+          <span className="ml-2">{hotel.data.tel}</span>
         </div>
       </div>
     </div>

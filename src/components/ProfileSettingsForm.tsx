@@ -13,14 +13,14 @@ function ProfileSettingsForm() {
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-[0_0_3px_0_rgba(0,0,0,0.4)] m-20">
-      <h1 className="text-4xl font-bold text-center mb-6 text-black">
+      <h1 className="text-4xl font-bold text-center mb-6">
         Profile Settings
       </h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label
             htmlFor="email"
-            className="block text-lg font-semibold text-black"
+            className="block text-lg font-semibold"
           >
             Email
           </label>
@@ -29,7 +29,7 @@ function ProfileSettingsForm() {
         <div className="mb-4">
           <label
             htmlFor="fullName"
-            className="block text-lg font-semibold text-black"
+            className="block text-lg font-semibold"
           >
             Full Name
           </label>
@@ -38,13 +38,13 @@ function ProfileSettingsForm() {
             id="fullName"
             value={fullName}
             onChange={(e) => setFullName(e.target.value)}
-            className="w-full p-2 border-2 border-blue-300 rounded-md text-black"
+            className="w-full p-2 border-2 border-blue-300 rounded-md"
           />
         </div>
         <div className="mb-4">
           <label
             htmlFor="phone"
-            className="block text-lg font-semibold text-black"
+            className="block text-lg font-semibold"
           >
             Phone
           </label>
@@ -53,7 +53,7 @@ function ProfileSettingsForm() {
             id="phone"
             value={phone}
             onChange={(e) => setPhone(e.target.value)}
-            className="w-full p-2 border-2 border-blue-300 rounded-md text-black"
+            className="w-full p-2 border-2 border-blue-300 rounded-md "
           />
         </div>
         <button

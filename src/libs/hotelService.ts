@@ -1,6 +1,6 @@
 import { Hotel, HotelData } from "../../interface";
 import { apiPath, getToken } from "./shared";
-export const getHotels = async (): Promise<Hotel> => {
+export const getHotels = async (searchParams?: { hotel?: string, province?: string }): Promise<Hotel> => {
   try {
     const response = await fetch(apiPath("/hotels"));
     

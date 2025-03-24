@@ -1,45 +1,60 @@
 "use client";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import BookingCard from "./BookingCard";
 import { useRouter } from "next/navigation";
-
-interface Booking {
-    id: string;
-    hotelName: string;
-    checkIn: string;
-    checkOut: string;
-    location: string;
-}
+import { BookingData } from "../../interface";
 
 function ManageBookings() {
-    const [bookings, setBookings] = useState<Booking[]>([
+    const [bookings, setBookings] = useState<BookingData[]>([
         {
             id: "1",
-            hotelName: "Chabatai Hotel1",
-            checkIn: "2024-09-10",
-            checkOut: "2024-09-12",
-            location: "Bangkok, Thailand",
+            start_date: "2024-09-10",
+            end_date: "2024-09-12",
+            hotel: {
+                id: "h1",
+                name: "Chabatai Hotel1",
+                address: {
+                    building_number: "123",
+                    street: "Main St",
+                    district: "District 1",
+                    province: "Bangkok",
+                    postal_code: "10100",
+                },
+                tel: "123456789",
+            },
+            user: {
+                id: "u1",
+                name: "John Doe",
+                tel: "987654321",
+                email: "john@example.com",
+                password: "password",
+                role: "user",
+            },
         },
         {
             id: "2",
-            hotelName: "Chabatai Hotel2",
-            checkIn: "2024-09-11",
-            checkOut: "2024-09-12",
-            location: "Bangkok, Thailand",
-        },
-        {
-            id: "3",
-            hotelName: "Chabatai Hotel3",
-            checkIn: "2024-09-10",
-            checkOut: "2024-09-13",
-            location: "Bangkok, Thailand",
-        },
-        {
-            id: "4",
-            hotelName: "Chabatai Hotel4",
-            checkIn: "2024-09-11",
-            checkOut: "2024-09-12",
-            location: "Bangkok, Thailand",
+            start_date: "2024-09-11",
+            end_date: "2024-09-12",
+            hotel: {
+                id: "h2",
+                name: "Chabatai Hotel2",
+                address: {
+                    building_number: "124",
+                    street: "Second St",
+                    district: "District 2",
+                    province: "Bangkok",
+                    postal_code: "10200",
+                },
+                tel: "123456780",
+            },
+            user: {
+                id: "u2",
+                name: "Jane Doe",
+                tel: "987654320",
+                email: "jane@example.com",
+                password: "password",
+                role: "user",
+            },
         },
     ]);
 
@@ -47,7 +62,7 @@ function ManageBookings() {
 
     const handleViewDetails = (id: string) => {
         alert(`Viewing details for booking with ID: ${id}`);
-        router.push(`/user/bookings/${id}`);
+        router.push(`/bookings/${id}`);
     };
 
     const handleCancel = (id: string) => {
@@ -64,10 +79,10 @@ function ManageBookings() {
                 {bookings.map((booking) => (
                     <BookingCard
                         key={booking.id}
-                        hotelName={booking.hotelName}
-                        checkIn={booking.checkIn}
-                        checkOut={booking.checkOut}
-                        location={booking.location}
+                        hotelName={booking.hotel.name}
+                        checkIn={booking.start_date}
+                        checkOut={booking.end_date}
+                        location={`${booking.hotel.address.district}, ${booking.hotel.address.province}`}
                         onViewDetails={() => handleViewDetails(booking.id)}
                         onCancel={() => handleCancel(booking.id)}
                     />

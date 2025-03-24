@@ -5,7 +5,7 @@ import React from 'react'
 
 function Profile() {
   return (
-    <div className="flex bg-white">
+    <div className="flex">
           <UserNavigate />
           <div className=" p-2 w-2/3">
           <ProfileSettingsForm/>

@@ -13,14 +13,14 @@ function Dashboard() {
     
   return (
     <div className="flex flex-col p-8 mx-auto">
-      <h1 className="text-4xl font-bold mb-6 text-sky-800">Dashboard</h1>
+      <h1 className="text-4xl font-bold mb-6">Dashboard</h1>
 
       <div className="flex gap-6">
         {/* Profile Card */}
         <div className="bg-white flex-1 h-70 p-6 rounded-lg shadow-[0_0_3px_0_rgba(0,0,0,0.2)] flex flex-col justify-between">
           <div>
-            <h2 className="text-xl font-semibold mb-4 text-sky-800">Profile</h2>
-            <div className="space-y-2 text-slate-700">
+            <h2 className="text-xl font-semibold mb-4 ">Profile</h2>
+            <div className="space-y-2 ">
               <div className="flex justify-between">
                 <span className="font-semibold">Name:</span>
                 <span>Name of user</span>
@@ -40,7 +40,7 @@ function Dashboard() {
             </div>
           </div>
           <button
-            className="w-full px-4 py-2 bg-sky-800 text-white rounded hover:bg-sky-700 flex items-center justify-center gap-2"
+            className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 flex items-center justify-center gap-2"
             onClick={() => handleClick("edit Profile", "/user/profile")}
           >
             <UserRoundCog />
@@ -51,19 +51,19 @@ function Dashboard() {
         {/* Bookings Card */}
         <div className="bg-white flex-1 h-70 p-6 rounded-lg shadow-[0_0_3px_0_rgba(0,0,0,0.2)] flex flex-col justify-between">
           <div>
-            <h2 className="text-xl font-semibold mb-4 text-sky-800">
+            <h2 className="text-xl font-semibold mb-4 ">
               Bookings
             </h2>
-            <div className="space-y-4 text-slate-700 ">
-              <p className="text-sm text-slate-500  ">
+            <div className="space-y-4  ">
+              <p className="text-sm  ">
                 manage booking listings
               </p>
-              <p className="text-3xl font-bold text-slate-700">7</p>
-              <p className="text-sm text-slate-500">Total bookings in system</p>
+              <p className="text-3xl font-bold ">7</p>
+              <p className="text-sm ">Total bookings in system</p>
             </div>
           </div>
           <button
-            className="w-full px-4 py-2 bg-sky-800 text-white rounded hover:bg-sky-700 flex items-center justify-center gap-2"
+            className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 flex items-center justify-center gap-2"
             onClick={() => handleClick("manage booking", "/user/bookings")}
           >
             <Calendar />

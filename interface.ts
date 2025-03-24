@@ -6,12 +6,17 @@ export interface Address {
     postal_code: string;
 }
 
-export interface Hotel {
+export interface HotelData {
     id: string;
     name: string;
     address: Address;
     tel: string;
     image?: string;
+}
+
+export interface Hotel {
+    count: number;
+    data: HotelData;
 }
 
 export interface User {
@@ -23,12 +28,17 @@ export interface User {
     role: 'user' | 'admin';
 }
 
-export interface Booking {
+export interface BookingData {
     id: string;
     start_date: string;
     end_date: string;
     hotel: Hotel;
     user: User;
+}
+
+export interface Booking {
+    count: number;
+    data: BookingData;
 }
 
 export interface AuthResponse {

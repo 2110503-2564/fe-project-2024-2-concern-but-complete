@@ -1,10 +1,10 @@
 'use client'
 import React from 'react'
-import { Hotel } from '../../interface'
+import { HotelData } from '../../interface'
 import { useRouter } from 'next/navigation'
 import { MapPin, Phone } from 'lucide-react'
 
-function HotelCard({hotel}:{hotel:Hotel}) {
+function HotelCard({hotel}:{hotel:HotelData}) {
     const router = useRouter()
 
     const handleClick = () => {

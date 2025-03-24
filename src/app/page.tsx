@@ -10,6 +10,7 @@ import {
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
+import SearchBar from "@/components/SearchBar";
 
 const Banner = () => {
   return (
@@ -105,8 +106,10 @@ const SellPointCard = ({
 export default function Home() {
   return (
     <main>
-      <Banner />
-      <HotelSearchBox />
+      <div className="relative mb-28 sm:mb-10">
+        <Banner />
+        <SearchBar />
+      </div>
       <section className="text-center p-6">
         <h2 className="text-3xl font-bold mb-4">Why Choose CBC</h2>
         <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">

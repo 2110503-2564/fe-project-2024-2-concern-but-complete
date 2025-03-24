@@ -6,7 +6,7 @@ export const getToken = () => {
   return null;
 };
 
-const API_BASEURL = process.env.API_BASEURL || "http://localhost:5003/api/v1";
+export const API_BASEURL = process.env.API_BASEURL || 'https://crappy-cbc-backend.vercel.app/api/v1';
 export const apiPath = (url: string) => {
     return `${API_BASEURL}${url}`;
 }

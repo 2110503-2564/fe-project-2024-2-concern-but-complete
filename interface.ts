@@ -16,7 +16,7 @@ export interface HotelData {
 
 export interface Hotel {
     count: number;
-    data: HotelData;
+    data: HotelData[];
 }
 
 export interface User {
@@ -32,13 +32,13 @@ export interface BookingData {
     id: string;
     start_date: string;
     end_date: string;
-    hotel: Hotel;
+    hotel: HotelData;
     user: User;
 }
 
 export interface Booking {
     count: number;
-    data: BookingData;
+    data: BookingData[];
 }
 
 export interface AuthResponse {

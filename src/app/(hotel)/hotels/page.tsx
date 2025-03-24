@@ -1,12 +1,12 @@
 import HotelCard from "@/components/HotelCard";
 import SearchBarHotelsPage from "@/components/SearchBarHotelsPage";
 import React from "react";
-import { Hotel } from "../../../../interface";
+import { HotelData } from "../../../../interface";
 import { getHotels } from "@/libs/hotelService";
 
 export default async function HotelsPage() {
 
-  const hotels = await getHotels() as unknown as { data: Hotel[] };
+  const hotels = await getHotels();
 
   return (
     <main
@@ -22,7 +22,7 @@ export default async function HotelsPage() {
       <SearchBarHotelsPage />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-4">
         {
-          hotels.data.map((hotel:Hotel,index) => (
+          hotels.data.map((hotel:HotelData,index) => (
             <HotelCard key={index} hotel={hotel} />
           ))
         }

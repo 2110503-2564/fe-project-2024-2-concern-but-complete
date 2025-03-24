@@ -74,7 +74,7 @@ export default function BookingDetailPage({
     <main className="bg-white p-10">
       <div>
         <button
-          onClick={() => router.push("/user/bookings")}
+          onClick={() => router.back()}
           className="text-blue-500 text-sm cursor-pointer bg-transparent border-none flex"
         >
           <ArrowLeft className="w-5 mr-2" />

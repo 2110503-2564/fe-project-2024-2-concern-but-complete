@@ -11,7 +11,7 @@ import React from "react";
 
 const LoginToolBar = ({ session }: { session: Session | null }) => {
   return session ? (
-    <span className="flex items-center gap-1">
+    <span className="flex items-center gap-1 ">
       <Link href={'/user'} className="flex items-center gap-1 hover:bg-secondary py-2 px-3 rounded-md transition-colors">
         <CircleUserRound />
         <span>{session.user?.name}</span>
@@ -69,7 +69,7 @@ const NavBar = () => {
   const {data: session} = useSession();
 
   return (
-    <nav className="bg-primary h-12 flex items-center px-2 text-bg text-sm gap-4">
+    <nav className="bg-primary h-12 flex items-center px-2 text-bg text-sm gap-4 fixed top-0 left-0 w-full z-10">
       <span className="mx-4 font-bold">CBC Hotels</span>
       <div className="flex-grow flex items-center h-full justify-end gap-2">
         <NavBarItem icon={<Bed />} text="Hotels" pageRef="/hotels" />

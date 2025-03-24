@@ -20,7 +20,9 @@ export default async function RootLayout({
       <body className={`bg-bg font-poppins text-text`}>
         <NextAuthProvider session={session}>
           <NavBar />
-          {children}
+          <div className="pt-12">
+            {children}
+            </div>
         </NextAuthProvider>
       </body>
     </html>

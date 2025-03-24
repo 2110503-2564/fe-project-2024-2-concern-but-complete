@@ -1,6 +1,5 @@
 import HotelCard from "@/components/HotelCard";
 import { Hotel } from "../../interface";
-import HotelSearchBox from "@/components/HotelSearchBox";
 import {
   ArrowRightCircle,
   Calendar,

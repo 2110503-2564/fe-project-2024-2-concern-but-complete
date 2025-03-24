@@ -21,7 +21,7 @@ const LoginToolBar = ({
     </span>
   ) : (
     <div className="flex items-center gap-2">
-      <Link href="/login" className="p-2 border-2 border-bg rounded-md">
+      <Link href="/api/auth/login" className="p-2 border-2 border-bg rounded-md">
         Login
       </Link>
       <Link

@@ -4,25 +4,23 @@ import { HotelData } from "../../interface";
 import { useRouter } from "next/navigation";
 
 interface HotelSettingsFormProps {
-  hotel: HotelData;
+  hotel?: HotelData;
   onSave: (hotel: HotelData) => void;
+  title: string;
 }
 
-function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
-  const [hotelName, setHotelName] = useState(hotel.name);
-  const [buildingNumber, setBuildingNumber] = useState(
-    hotel.address.building_number
-  );
-  const [street, setStreet] = useState(hotel.address.street || "");
-  const [district, setDistrict] = useState(hotel.address.district || "");
-  const [province, setProvince] = useState(hotel.address.province);
-  const [postalCode, setPostalCode] = useState(hotel.address.postal_code);
-  const [tel, setTel] = useState(hotel.tel);
+function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
+  const [hotelName, setHotelName] = useState(hotel?.name || "");
+  const [buildingNumber, setBuildingNumber] = useState(hotel?.address.building_number || "");
+  const [street, setStreet] = useState(hotel?.address.street || "");
+  const [district, setDistrict] = useState(hotel?.address.district || "");
+  const [province, setProvince] = useState(hotel?.address.province || "");
+  const [postalCode, setPostalCode] = useState(hotel?.address.postal_code || "");
+  const [tel, setTel] = useState(hotel?.tel || "");
   const router = useRouter();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const updatedHotel: HotelData = {
-      ...hotel,
+    const updatedHotel: Partial<HotelData> = {
       name: hotelName,
       address: {
         building_number: buildingNumber,
@@ -33,13 +31,13 @@ function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
       },
       tel,
     };
-    onSave(updatedHotel); // Call the onSave function to pass the updated hotel data
+    onSave(updatedHotel);
     router.push("/admin/hotels"); 
   };
 
   return (
     <div className="w-150 mx-auto m-10 p-6 bg-white rounded-lg shadow-[0_0_3px_0_rgba(0,0,0,0.4)]">
-      <h1 className="text-4xl font-bold text-center mb-6">Edit Hotel</h1>
+      <h1 className="text-4xl font-bold text-center mb-6">{title}</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
           <label htmlFor="hotelName" className="block text-lg font-semibold">

@@ -73,20 +73,7 @@ function Hotels() {
     };
 
     const handleCreateHotel = () => {
-        // Add a new hotel (in a real app, this would be done through an API)
-        const newHotel: HotelData = {
-            id: Date.now().toString(),
-            name: "New Hotel",
-            tel: "123456789",
-            address: {
-            building_number: "1234",
-            street: "1236 Street",
-            district: "District",
-            province: "Province",
-            postal_code: "12345",
-          },
-        };
-        setHotels([...hotels, newHotel]);
+      router.push("/admin/hotels/create");
     };
 
     return (

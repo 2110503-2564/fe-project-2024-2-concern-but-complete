@@ -1,16 +1,14 @@
+'use client'
 import HotelCard from "@/components/HotelCard";
 import { Hotel } from "../../interface";
-import HotelSearchBox from "@/components/HotelSearchBox";
-import {
-  ArrowRightCircle,
-  Calendar,
-  Hotel as HotelIcon,
-  Search,
-} from "lucide-react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
+import{ ArrowRightCircle, Calendar, Hotel as HotelIcon, Search } from "lucide-react";
 import Image from "next/image";
 import React from "react";
 import Link from "next/link";
 import SearchBar from "@/components/SearchBar";
+import { getHotels } from "@/libs/hotelService";
 
 const Banner = () => {
   return (
@@ -34,57 +32,6 @@ const Banner = () => {
   );
 };
 
-const mockHotels: Hotel[] = [
-  {
-    id: "1",
-    name: "Triamudom",
-    address: {
-      building_number: "123",
-      street: "burger",
-      district: "samyan",
-      province: "bangkok",
-      postal_code: "12341",
-    },
-    tel: "099-999-9999",
-  },
-  {
-    id: "1",
-    name: "Triamudom",
-    address: {
-      building_number: "123",
-      street: "burger",
-      district: "samyan",
-      province: "bangkok",
-      postal_code: "12341",
-    },
-    tel: "099-999-9999",
-  },
-  {
-    id: "1",
-    name: "Triamudom",
-    address: {
-      building_number: "123",
-      street: "burger",
-      district: "samyan",
-      province: "bangkok",
-      postal_code: "12341",
-    },
-    tel: "099-999-9999",
-  },
-  {
-    id: "1",
-    name: "Triamudom",
-    address: {
-      building_number: "123",
-      street: "burger",
-      district: "samyan",
-      province: "bangkok",
-      postal_code: "12341",
-    },
-    tel: "099-999-9999",
-  },
-];
-
 const SellPointCard = ({
   title,
   description,
@@ -98,17 +45,30 @@ const SellPointCard = ({
     <div className="flex flex-col items-center w-auto bg-white p-4 rounded-md shadow-bg shadow-lg">
       <div className="text-primary rounded-full p-4">{icon}</div>
       <h3 className="text-lg font-semibold">{title}</h3>
-      <p className="text-start text-wrap">{description}</p>
+      <p className="text-center mt-2">{description}</p>
     </div>
   );
 };
 
 export default function Home() {
+  const router = useRouter();
+  const [hotels, setHotels] = useState<Hotel>({count:0, data:[]});
+
+  useEffect(() => {
+    const fetchHotel = async () => {
+      const hotelsResponse = await getHotels();
+      setHotels(hotelsResponse);
+    }
+    fetchHotel();
+  },[])
+
   return (
     <main>
       <div className="relative mb-28 sm:mb-10">
         <Banner />
-        <SearchBar />
+        <div className="w-8/12 absolute transform -translate-x-1/2 left-1/2 translate-y-1/2 bottom-2 p-6 rounded-md bg-white shadow-sm">
+          <SearchBar onHomePage={true} />
+        </div>
       </div>
       <section className="text-center p-6">
         <h2 className="text-3xl font-bold mb-4">Why Choose CBC</h2>
@@ -116,7 +76,7 @@ export default function Home() {
           Experience a seamless booking process and enjoy premium accommodations
           tailored to your needs.
         </p>
-        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] items-center gap-4">
+        <div className="grid grid-cols-[repeat(auto-fit,minmax(300px,1fr))] gap-6 p-4">
           <SellPointCard
             title="Curated Selection"
             description="Handpicked hotels that meet our high standards for comfort and service."
@@ -138,14 +98,14 @@ export default function Home() {
         <div className="flex justify-between items-center mb-6">
           <h2 className="text-2xl font-bold">Sample Hotels</h2>
           <Link
-            href={"/"}
+            href={"/hotels"}
             className="bg-white px-3 py-2 rounded-lg border-2 border-slate-300 hover:bg-slate-300 transition-colors"
           >
             View All Hotels →
           </Link>
         </div>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {mockHotels.slice(0, 3).map((hotel, index) => (
+          {hotels.data.slice(0,3).map((hotel, index) => (
             <HotelCard key={index} hotel={hotel} />
           ))}
         </div>
@@ -158,7 +118,7 @@ export default function Home() {
           Create an account now to unlock the full experience and start booking
           your perfect stay.
         </p>
-        <button className="flex items-center bg-bg text-text px-6 py-3 rounded-lg hover:bg-primary-dark transition-colors">
+        <button onClick={()=>{router.push("/api/auth/signup")}} className="flex items-center bg-bg text-text px-6 py-3 rounded-lg hover:bg-blue-600 hover:text-white transition-colors" >
           Sign-up Now
           <ArrowRightCircle className="ml-2" />
         </button>

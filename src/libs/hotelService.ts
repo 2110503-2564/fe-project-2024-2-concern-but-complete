@@ -1,6 +1,6 @@
-import { Hotel } from "../../interface";
+import { Hotel, HotelData } from "../../interface";
 import { apiPath, getToken } from "./shared";
-export const getHotels = async (): Promise<Hotel[]> => {
+export const getHotels = async (): Promise<Hotel> => {
   try {
     const response = await fetch(apiPath("/hotels"));
     
@@ -15,7 +15,7 @@ export const getHotels = async (): Promise<Hotel[]> => {
   }
 };
 
-export const getHotel = async (id: string): Promise<Hotel> => {
+export const getHotel = async (id: string): Promise<HotelData> => {
   try {
     const response = await fetch(apiPath(`/hotels/${id}`));
     
@@ -23,14 +23,16 @@ export const getHotel = async (id: string): Promise<Hotel> => {
       throw new Error(`Error: ${response.status}`);
     }
     
-    return await response.json();
+    const jsonResponse = await response.json();
+    return jsonResponse.data;
+
   } catch (error) {
     console.error(`Error fetching hotel with ID ${id}:`, error);
     throw error;
   }
 };
 
-export const createHotel = async (hotelData: Omit<Hotel, 'id'>): Promise<Hotel> => {
+export const createHotel = async (hotelData: Omit<HotelData, 'id'>): Promise<HotelData> => {
   const token = getToken();
   
   if (!token) {
@@ -52,14 +54,16 @@ export const createHotel = async (hotelData: Omit<Hotel, 'id'>): Promise<Hotel> 
       throw new Error(errorData.message || `Error: ${response.status}`);
     }
     
-    return await response.json();
+    const jsonResponse = await response.json();
+    return jsonResponse.data;
+
   } catch (error) {
     console.error('Error creating hotel:', error);
     throw error;
   }
 };
 
-export const updateHotel = async (id: string, hotelData: Partial<Hotel>): Promise<Hotel> => {
+export const updateHotel = async (id: string, hotelData: Partial<HotelData>): Promise<HotelData> => {
   const token = getToken();
   
   if (!token) {
@@ -81,7 +85,9 @@ export const updateHotel = async (id: string, hotelData: Partial<Hotel>): Promis
       throw new Error(errorData.message || `Error: ${response.status}`);
     }
     
-    return await response.json();
+    const jsonResponse = await response.json();
+    return jsonResponse.data;
+
   } catch (error) {
     console.error(`Error updating hotel with ID ${id}:`, error);
     throw error;

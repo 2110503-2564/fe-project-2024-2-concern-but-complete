@@ -72,8 +72,8 @@ export default async function HotelsPage() {
       <SearchBarHotelsPage />
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-4">
         {
-          hotels.data.map((hotel:Hotel) => (
-            <HotelCard key={hotel.data?.id} hotel={hotel} />
+          hotels.data.map((hotel:Hotel,index) => (
+            <HotelCard key={index} hotel={hotel} />
           ))
         }
       </div>

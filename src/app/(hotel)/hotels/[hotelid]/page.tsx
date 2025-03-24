@@ -7,10 +7,12 @@ import dayjs from "dayjs";
 import DateReserve from "@/components/DateReserve";
 import { getHotel } from "@/libs/hotelService";
 import { Hotel } from "../../../../../interface";
+import { useRouter } from "next/navigation";
 
 export default function HotelDetailPage({ params }: { params: Promise<{ hotelid: string }> }) {
   const session = "null";
   const unwrappedParams = use(params);
+  const router = useRouter();
 
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
@@ -62,9 +64,9 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
   return (
     <main className="min-h-screen p-6">
       <div>
-        <Link href="/hotels" className="text-blue-500 hover:underline">
-          &larr; Back to Hotels
-        </Link>
+        <button onClick={()=>router.back()} className="text-blue-500 hover:underline">
+          &larr; Back
+        </button>
       </div>
 
       <div className="mt-8 flex flex-col md:flex-row gap-8">

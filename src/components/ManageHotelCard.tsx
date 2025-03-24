@@ -1,11 +1,11 @@
 import { MapPin, PenLine, Phone, Trash2 } from "lucide-react";
 import React from "react";
 import HotelCard from "./HotelCard";
-import { Hotel } from "../../interface";
+import { HotelData } from "../../interface";
 
 
 interface ManageHotelCardProps {
-    hotel: Hotel;
+    hotel: HotelData;
     onEdit: (id: string) => void;
     onDelete: (id: string) => void;
 }

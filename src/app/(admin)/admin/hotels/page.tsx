@@ -3,13 +3,13 @@ import ManageHotelCard from "@/components/ManageHotelCard";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
-import { Hotel } from "../../../../../interface";
+import { HotelData } from "../../../../../interface";
 
 function Hotels() {
     const router = useRouter();
 
     // Initial list of hotels (this could come from an API in a real-world scenario)
-    const [hotels, setHotels] = useState<Hotel[]>([
+    const [hotels, setHotels] = useState<HotelData[]>([
         {
           id: "1",
           name: "Hotel 1",
@@ -74,7 +74,7 @@ function Hotels() {
 
     const handleCreateHotel = () => {
         // Add a new hotel (in a real app, this would be done through an API)
-        const newHotel: Hotel = {
+        const newHotel: HotelData = {
             id: Date.now().toString(),
             name: "New Hotel",
             tel: "123456789",

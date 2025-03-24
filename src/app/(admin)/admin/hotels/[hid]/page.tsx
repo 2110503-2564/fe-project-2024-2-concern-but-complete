@@ -1,14 +1,14 @@
 "use client";
 import { useRouter, useParams } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Hotel } from "../../../../../../interface"; 
+import { HotelData } from "../../../../../../interface"; 
 import HotelSettingsForm from "@/components/HotelSettingsForm"; 
 import { ArrowLeft } from "lucide-react";
 
 function EditHotelPage() {
     const router = useRouter();
     const { hid } = useParams();
-    const [hotel, setHotel] = useState<Hotel | null>(null);
+    const [hotel, setHotel] = useState<HotelData | null>(null);
 
     useEffect(() => {
         if (hid) {
@@ -28,7 +28,7 @@ function EditHotelPage() {
         }
     }, [hid]);
 
-    const handleSave = (updatedHotel: Hotel) => {
+    const handleSave = (updatedHotel: HotelData) => {
         console.log("Hotel updated:", updatedHotel);
     };
 

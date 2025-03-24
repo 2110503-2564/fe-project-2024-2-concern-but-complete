@@ -1,10 +1,11 @@
 "use client";
 import React, { useState } from "react";
-import { Hotel } from "../../interface";
+import { HotelData } from "../../interface";
+import { useRouter } from "next/navigation";
 
 interface HotelSettingsFormProps {
-  hotel: Hotel;
-  onSave: (hotel: Hotel) => void;
+  hotel: HotelData;
+  onSave: (hotel: HotelData) => void;
 }
 
 function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
@@ -17,10 +18,10 @@ function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
   const [province, setProvince] = useState(hotel.address.province);
   const [postalCode, setPostalCode] = useState(hotel.address.postal_code);
   const [tel, setTel] = useState(hotel.tel);
-
+  const router = useRouter();
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const updatedHotel: Hotel = {
+    const updatedHotel: HotelData = {
       ...hotel,
       name: hotelName,
       address: {
@@ -33,10 +34,11 @@ function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
       tel,
     };
     onSave(updatedHotel); // Call the onSave function to pass the updated hotel data
+    router.push("/admin/hotels"); 
   };
 
   return (
-    <div className="w-250 mx-auto m-10 p-6 bg-white rounded-lg shadow-[0_0_3px_0_rgba(0,0,0,0.4)]">
+    <div className="w-150 mx-auto m-10 p-6 bg-white rounded-lg shadow-[0_0_3px_0_rgba(0,0,0,0.4)]">
       <h1 className="text-4xl font-bold text-center mb-6">Edit Hotel</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
@@ -51,8 +53,8 @@ function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
             className="w-full p-2 border-2 border-blue-300 rounded-md"
           />
         </div>
-        <div className="grid grid-cols-4 gap-4">
-          <div className="mb-4">
+        <div className="flex flex-wrap justify-between gap-4 mb-6">
+          <div className=" w-40">
             <label
               htmlFor="buildingNumber"
               className="block text-lg font-semibold"
@@ -68,7 +70,7 @@ function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="w-93">
             <label htmlFor="street" className="block text-lg font-semibold">
               Street
             </label>
@@ -81,7 +83,7 @@ function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="w-67">
             <label htmlFor="district" className="block text-lg font-semibold">
               District
             </label>
@@ -94,7 +96,7 @@ function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="w-67">
             <label htmlFor="province" className="block text-lg font-semibold">
               Province
             </label>
@@ -107,7 +109,7 @@ function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="w-40">
             <label htmlFor="postalCode" className="block text-lg font-semibold">
               Postal Code
             </label>
@@ -120,7 +122,7 @@ function HotelSettingsForm({ hotel, onSave }: HotelSettingsFormProps) {
             />
           </div>
 
-          <div className="mb-4">
+          <div className="w-93">
             <label htmlFor="tel" className="block text-lg font-semibold">
               Phone Number
             </label>

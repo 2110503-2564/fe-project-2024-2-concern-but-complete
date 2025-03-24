@@ -7,6 +7,7 @@ import { Bed, CircleUserRound, LogOut, Wrench } from "lucide-react";
 import { Session } from "next-auth";
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import React from "react";
 
 const LoginToolBar = ({ session }: { session: Session | null }) => {
@@ -67,10 +68,11 @@ const NavBarItem = ({
 
 const NavBar = () => {
   const {data: session} = useSession();
+  const router = useRouter();
 
   return (
     <nav className="bg-primary h-12 flex items-center px-2 text-bg text-sm gap-4 fixed top-0 left-0 w-full z-10">
-      <span className="mx-4 font-bold">CBC Hotels</span>
+      <img src="/img/icon.png" alt="CBC Hotels" className="mx-4 h-12" onClick={() => router.push("/")} />
       <div className="flex-grow flex items-center h-full justify-end gap-2">
         <NavBarItem icon={<Bed />} text="Hotels" pageRef="/hotels" />
         <NavBarItem

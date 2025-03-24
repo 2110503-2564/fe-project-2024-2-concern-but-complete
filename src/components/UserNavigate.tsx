@@ -9,7 +9,6 @@ function UserNavigate() {
   const router = useRouter(); 
 
   const handleClick = (buttonLabel: string, route: string) => {
-    alert(`You clicked on: ${buttonLabel}`);
     router.push(route); 
   };
 
@@ -24,7 +23,7 @@ function UserNavigate() {
           className="object-cover"
         />
       </div>
-      <div className="mt-2 justify-start text-sky-800 text-3xl font-semibold mb-10">
+      <div className="mt-2 justify-start text-3xl font-semibold mb-10">
         Name of User
       </div>
       <div className="flex flex-col">

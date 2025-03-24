@@ -1,6 +1,7 @@
 'use client'
 
 import { RegisterForm, registerUser } from "@/libs/authService";
+import { TextField } from "@mui/material";
 import { signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -48,54 +49,74 @@ const SignUpPage = () => {
   };
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-8 rounded-lg shadow-lg w-96">
-        <h2 className="text-2xl font-bold mb-4">Register</h2>
-        {feedBack && <p>{feedBack}</p>}
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <input
-            type="text"
+    <form onSubmit={handleSubmit} className="flex justify-center p-10">
+      <div className="flex flex-col items-center p-7 w-120 bg-white rounded-xl shadow-[0_0_5px_0_rgba(0,0,0,0.3)]">
+        <h1 className="text-3xl font-semibold text-blue-700 mb-1">
+          Create an Account
+        </h1>
+        <p className="text-lg mb-10 text-gray-500">
+          Sign up to start booking your hotel
+        </p>
+        <div className="w-full mb-5">
+          <TextField
+            label="Full Name"
             name="name"
-            placeholder="Full Name"
+            variant="outlined"
+            type="text"
+            id="name"
             value={userInput.name}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
             required
+            className="w-full p-3 border-2 border-blue-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <input
-            type="text"
+        </div>
+        <div className="w-full mb-5">
+          <TextField
+            label="Phone Number"
             name="tel"
-            placeholder="Phone Number"
+            variant="outlined"
+            type="text"
+            id="tel"
             value={userInput.tel}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
             required
+            className="w-full p-3 border-2 border-blue-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <input
-            type="email"
+        </div>
+        <div className="w-full mb-5">
+          <TextField
+            label="Email"
             name="email"
-            placeholder="Email"
+            variant="outlined"
+            type="email"
+            id="email"
             value={userInput.email}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
             required
+            className="w-full p-3 border-2 border-blue-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <input
-            type="password"
+        </div>
+        <div className="w-full mb-5">
+          <TextField
+            label="Password"
             name="password"
-            placeholder="Password"
+            variant="outlined"
+            type="password"
+            id="password"
             value={userInput.password}
             onChange={handleChange}
-            className="w-full p-2 border rounded"
             required
+            className="w-full p-3 border-2 border-blue-300 rounded-md text-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
           />
-          <button
-            type="submit"
-            className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
-          ></button>
-        </form>
+        </div>
+        <button
+          type="submit"
+          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+        >
+          Sign Up
+        </button>
       </div>
-    </div>
+    </form>
   );
 };
 

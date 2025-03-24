@@ -3,34 +3,63 @@ import ManageHotelCard from "@/components/ManageHotelCard";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { Hotel } from "../../../../../interface";
 
-function Hotel() {
+function Hotels() {
     const router = useRouter();
 
     // Initial list of hotels (this could come from an API in a real-world scenario)
-    const [hotels, setHotels] = useState([
+    const [hotels, setHotels] = useState<Hotel[]>([
         {
-            id: "1",
-            name: "Hotel 1",
-            address: "Address 1",
-            phone: "0123456789",
-            image: "/img/mockProfile.jpg",
+          id: "1",
+          name: "Hotel 1",
+          tel: "123456789",
+          address: {
+            building_number: "1234",
+            street: "1234 Street",
+            district: "District",
+            province: "Province",
+            postal_code: "12345",
+          },
         },
         {
-            id: "2",
-            name: "Hotel 2",
-            address: "Address 2",
-            phone: "0123456789",
-            image: "/img/mockProfile.jpg",
+          id: "2",
+          name: "Hotel 2",
+          tel: "123456789",
+          address: {
+            building_number: "1234",
+            street: "1235 Street",
+            district: "District",
+            province: "Province",
+            postal_code: "12345",
+          },
         },
         {
-            id: "3",
-            name: "Hotel 3",
-            address: "Address 3",
-            phone: "0123456789",
-            image: "/img/mockProfile.jpg",
+          id: "3",
+          name: "Hotel 3",
+          tel: "123456789",
+          address: {
+            building_number: "1234",
+            street: "1236 Street",
+            district: "District",
+            province: "Province",
+            postal_code: "12345",
+          },
         },
-    ]);
+        {
+          id: "4",
+          name: "Hotel 4",
+          tel: "123456789",
+          address: {
+            building_number: "1234",
+            street: "1236 Street",
+            district: "District",
+            province: "Province",
+            postal_code: "12345",
+          },
+        },
+      ]
+    );
 
     const handleEdit = (id: string) => {
         // Handle hotel edit (could navigate to a different page or show a modal)
@@ -44,18 +73,23 @@ function Hotel() {
 
     const handleCreateHotel = () => {
         // Add a new hotel (in a real app, this would be done through an API)
-        const newHotel = {
+        const newHotel: Hotel = {
             id: Date.now().toString(),
             name: "New Hotel",
-            address: "New Address",
-            phone: "0123456789",
-            image: "/img/mockProfile.jpg",
+            tel: "123456789",
+            address: {
+            building_number: "1234",
+            street: "1236 Street",
+            district: "District",
+            province: "Province",
+            postal_code: "12345",
+          },
         };
         setHotels([...hotels, newHotel]);
     };
 
     return (
-        <div className="flex flex-col bg-white min-h-screen">
+        <div className="flex flex-col min-h-screen">
             {/* Back to Admin Dashboard Button */}
             <button
                 onClick={() => router.push("/admin")}
@@ -66,7 +100,7 @@ function Hotel() {
             </button>
 
             {/* Title */}
-            <div className="p-4 pl-20 w-full text-black text-3xl font-semibold my-4">
+            <div className="p-4 pl-20 w-full text-3xl font-semibold my-4">
                 Manage Hotels
             </div>
 
@@ -95,4 +129,4 @@ function Hotel() {
     );
 }
 
-export default Hotel;
+export default Hotels;

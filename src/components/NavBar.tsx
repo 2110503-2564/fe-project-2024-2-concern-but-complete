@@ -1,9 +1,11 @@
+'use client'
+
 import {
-  authOptions,
-  UserResponse,
+  UserResponse
 } from "@/app/api/auth/[...nextauth]/authOptions";
 import { Bed, CircleUserRound, LogOut, Wrench } from "lucide-react";
-import { getServerSession, Session } from "next-auth";
+import { Session } from "next-auth";
+import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
 import React from "react";
 
@@ -17,9 +19,9 @@ const LoginToolBar = ({ session }: { session: Session | null }) => {
           <span className="bg-bg text-text px-1 rounded-md">Admin</span>
         )}
       </Link>
-      <Link href="/api/auth/signout" className="hover:bg-secondary py-2 pl-2 pr-3 rounded-md transition-colors">
+      <button onClick={() => signOut({callbackUrl: '/'})} className="hover:bg-secondary py-2 pl-2 pr-3 rounded-md transition-colors">
         <LogOut className="ml-2" />
-      </Link>
+      </button>
     </span>
   ) : (
     <div className="flex items-center gap-2">
@@ -63,8 +65,8 @@ const NavBarItem = ({
   );
 };
 
-const NavBar = async () => {
-  const session = await getServerSession(authOptions);
+const NavBar = () => {
+  const {data: session} = useSession();
 
   return (
     <nav className="bg-primary h-12 flex items-center px-2 text-bg text-sm gap-4">

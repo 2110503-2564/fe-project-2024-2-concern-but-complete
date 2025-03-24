@@ -40,7 +40,7 @@ function Dashboard() {
             </div>
           </div>
           <button
-            className="w-full px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-800 flex items-center justify-center gap-2"
+            className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 flex items-center justify-center gap-2"
             onClick={() => handleClick("edit Profile", "/user/profile")}
           >
             <UserRoundCog />
@@ -63,7 +63,7 @@ function Dashboard() {
             </div>
           </div>
           <button
-            className="w-full px-4 py-2 bg-sky-500 text-white rounded hover:bg-sky-800 flex items-center justify-center gap-2"
+            className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-700 flex items-center justify-center gap-2"
             onClick={() => handleClick("manage booking", "/user/bookings")}
           >
             <Calendar />

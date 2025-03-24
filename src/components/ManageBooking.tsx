@@ -82,7 +82,7 @@ function ManageBookings() {
                         hotelName={booking.hotel.name}
                         checkIn={booking.start_date}
                         checkOut={booking.end_date}
-                        location={`${booking.hotel.address.province}, ${booking.hotel.address.postal_code}`}
+                        location={`${booking.hotel.address.district}, ${booking.hotel.address.province}`}
                         onViewDetails={() => handleViewDetails(booking.id)}
                         onCancel={() => handleCancel(booking.id)}
                     />

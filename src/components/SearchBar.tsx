@@ -20,7 +20,7 @@ export default function SearchBar({ onHomePage = false }) {
     if (onHomePage) {
       router.push(`/hotels?${params.toString()}`);
     } else {
-      router.push(`/hotels?${params.toString()}`);
+      router.replace(`/hotels?${params.toString()}`);
     }
   };
 

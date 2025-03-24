@@ -11,9 +11,21 @@ const getToken = () => {
   return null;
 };
 
-export const getHotels = async (): Promise<Hotel> => {
+export const getHotels = async (searchParams?: { hotel?: string, province?: string }): Promise<Hotel> => {
   try {
-    const response = await fetch(`${API_BASE_URL}/hotels`);
+    let url = `${API_BASE_URL}/hotels`;
+    
+    if (searchParams) {
+      const params = new URLSearchParams();
+      if (searchParams.hotel) params.append("name", searchParams.hotel);
+      if (searchParams.province) params.append("address.province", searchParams.province);
+      
+      if (params.toString()) {
+        url += `?${params.toString()}`;
+      }
+    }
+    
+    const response = await fetch(url);
     
     if (!response.ok) {
       throw new Error(`Error: ${response.status}`);

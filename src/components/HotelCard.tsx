@@ -10,7 +10,7 @@ function HotelCard({hotel}:{hotel:HotelData}) {
     const handleClick = () => {
         router.push(`/hotels/${hotel.id}`)
     }
-    const addressText = hotel.address ? `${hotel.address.street}, ${hotel.address.district}, ${hotel.address.province} ${hotel.address.postal_code}`: "No address info";
+    const addressText = hotel.address ? `${hotel.address.street}, ${hotel.address.district}, ${hotel.address.province} ${hotel.address.postalcode}`: "No address info";
   return (
     <div className="max-w-sm w-full bg-white text-black rounded-lg shadow-md overflow-hidden" onClick={handleClick}>
       <div className="relative h-52 bg-gray-600">

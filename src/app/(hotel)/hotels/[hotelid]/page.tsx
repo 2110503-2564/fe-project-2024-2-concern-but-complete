@@ -68,7 +68,7 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
       const startDateISO = startDate.toISOString();
       const endDateISO = endDate.toISOString();
 
-      const newBooking = await createBooking(unwrappedParams.hotelid, startDateISO, endDateISO, session?.user?.token);
+      const newBooking = await createBooking(unwrappedParams.hotelid, startDateISO, endDateISO, (session as any)?.token);
       alert('Booking successful!');
       router.push('/user/bookings');
 
@@ -78,7 +78,7 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
   }
 
   const addressText = hotel?.address
-    ? `${hotel?.address?.street}, ${hotel?.address?.district}, ${hotel?.address?.province} ${hotel?.address?.postal_code}`
+    ? `${hotel?.address?.street}, ${hotel?.address?.district}, ${hotel?.address?.province} ${hotel?.address?.postalcode}`
     : "No address info";
 
   return (

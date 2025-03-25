@@ -7,22 +7,21 @@ import { ArrowLeft } from "lucide-react";
 import { getHotel, updateHotel } from "@/libs/hotelService";
 import { useSession } from "next-auth/react";
 
-function EditHotelPage({ params }: { params: Promise<{ hid: string }> }) {
+function EditHotelPage({ params }: { params: { hid: string } }) {
   const {data:session} = useSession();
   const router = useRouter();
-  const unwrappedParams = use(params);
   const [hotel, setHotel] = useState<HotelData | null>(null);
 
   useEffect(() => {
     const fetchHotel = async () => {
-      const hotelResponse = await getHotel(unwrappedParams.hid);
+      const hotelResponse = await getHotel(params.hid);
       setHotel(hotelResponse);
     };
     fetchHotel();
-  }, [unwrappedParams.hid]);
+  }, [params.hid]);
 
   const handleEdit = (updatedHotel: HotelData) => {
-    updateHotel(unwrappedParams.hid, updatedHotel, (session as any)?.token);
+    updateHotel(params.hid, updatedHotel, (session as any)?.token);
   };
 
   if (!hotel) {

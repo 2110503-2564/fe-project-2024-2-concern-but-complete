@@ -10,9 +10,8 @@ import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { createBooking } from "@/libs/bookingService";
 
-export default function HotelDetailPage({ params }: { params: Promise<{ hotelid: string }> }) {
+export default function HotelDetailPage({params}: {params: {hotelid: string}}) {
   const {data:session} = useSession();
-  const unwrappedParams = use(params);
   const router = useRouter();
 
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
@@ -21,11 +20,11 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
 
   useEffect(() => {
     const fetchHotel = async () => {
-      const hotelResponse = await getHotel(unwrappedParams.hotelid);
+      const hotelResponse = await getHotel(params.hotelid);
       setHotel(hotelResponse);
     }
     fetchHotel();
-  },[unwrappedParams.hotelid]);
+  },[params.hotelid]);
 
   const handleStartDateChange = (date: Dayjs) => {
     setStartDate(date);
@@ -68,7 +67,7 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
       const startDateISO = startDate.toISOString();
       const endDateISO = endDate.toISOString();
 
-      const newBooking = await createBooking(unwrappedParams.hotelid, startDateISO, endDateISO, (session as any)?.token);
+      const newBooking = await createBooking(params.hotelid, startDateISO, endDateISO, (session as any)?.token);
       alert('Booking successful!');
       router.push('/user/bookings');
 

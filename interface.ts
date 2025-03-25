@@ -3,7 +3,7 @@ export interface Address {
     street?: string;
     district?: string;
     province: string;
-    postal_code: string;
+    postalcode: string;
 }
 
 export interface HotelData {

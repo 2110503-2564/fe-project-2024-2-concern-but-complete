@@ -1,5 +1,5 @@
 import { Hotel, HotelData } from "../../interface";
-import { apiPath, getToken } from "./shared";
+import { apiPath } from "./shared";
 export const getHotels = async (searchParams?: { hotel?: string, province?: string }): Promise<Hotel> => {
   try {
     const response = await fetch(apiPath("/hotels"));
@@ -32,13 +32,8 @@ export const getHotel = async (id: string): Promise<HotelData> => {
   }
 };
 
-export const createHotel = async (hotelData: Omit<HotelData, 'id'>): Promise<HotelData> => {
-  const token = getToken();
-  
-  if (!token) {
-    throw new Error('Authentication required');
-  }
-  
+export const createHotel = async (hotelData: Omit<HotelData, 'id'>, token?:string): Promise<HotelData> => {
+
   try {
     const response = await fetch(apiPath('/hotels'), {
       method: 'POST',
@@ -63,12 +58,7 @@ export const createHotel = async (hotelData: Omit<HotelData, 'id'>): Promise<Hot
   }
 };
 
-export const updateHotel = async (id: string, hotelData: Partial<HotelData>): Promise<HotelData> => {
-  const token = getToken();
-  
-  if (!token) {
-    throw new Error('Authentication required');
-  }
+export const updateHotel = async (id: string, hotelData: Partial<HotelData>, token?:string): Promise<HotelData> => {
   
   try {
     const response = await fetch(apiPath(`/hotels/${id}`), {
@@ -94,13 +84,8 @@ export const updateHotel = async (id: string, hotelData: Partial<HotelData>): Pr
   }
 };
 
-export const deleteHotel = async (id: string): Promise<void> => {
-  const token = getToken();
-  
-  if (!token) {
-    throw new Error('Authentication required');
-  }
-  
+export const deleteHotel = async (id: string,token?:string): Promise<void> => {
+    
   try {
     const response = await fetch(apiPath(`/hotels/${id}`), {
       method: 'DELETE',
@@ -113,6 +98,9 @@ export const deleteHotel = async (id: string): Promise<void> => {
       const errorData = await response.json();
       throw new Error(errorData.message || `Error: ${response.status}`);
     }
+    const jsonResponse = await response.json();
+    return jsonResponse.data;
+
   } catch (error) {
     console.error(`Error deleting hotel with ID ${id}:`, error);
     throw error;

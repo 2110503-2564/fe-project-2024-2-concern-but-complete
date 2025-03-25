@@ -80,7 +80,7 @@ export const createBooking = async (hotelId: string, startDate: string, endDate:
  * @returns Promise with the updated booking data
  */
 export const updateBooking = async (bookingId: string, startDate: string, endDate: string, token?: string): Promise<BookingData> => {
-  
+  console.log('updateBooking', bookingId, startDate, endDate, token);
   try {
     const response = await fetch(apiPath(`/bookings/${bookingId}`),{
         method: 'PUT',

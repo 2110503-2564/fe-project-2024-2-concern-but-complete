@@ -14,7 +14,7 @@ function UserNavigate() {
   };
   const {data: session} = useSession();
   return (
-    <div className="w-1/4 h-[515px] relative flex flex-col items-center m-6">
+    <div className="w-1/4 h-[515px] relative flex flex-col items-center m-6 ">
       <div className="w-44 h-44 overflow-hidden rounded-full">
         <Image
           src="/img/mockProfile.jpg"
@@ -27,7 +27,7 @@ function UserNavigate() {
       <div className="mt-2 justify-start text-3xl font-semibold mb-10">
         {session?.user?.name}
       </div>
-      <div className="flex flex-col">
+      <div className="flex flex-col rounded-2xl">
         {/* Dashboard Button - Navigates to /user */}
         <NavigateBtn
           icon={<House className="w-5 mr-4" />}

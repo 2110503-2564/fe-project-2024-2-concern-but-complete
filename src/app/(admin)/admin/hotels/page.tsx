@@ -56,38 +56,40 @@ function Hotels() {
       </button>
 
       <div>
-      <div>
-      {/* Title */}
-      <div className="pt-10 pl-20 w-full text-3xl font-semibold ">
-        Manage Hotels
+        <div>
+          {/* Title */}
+          <div className="pt-10 pl-20 w-full text-3xl font-semibold ">
+            Manage Hotels
+          </div>
+          <p className="p-4 pl-20 text-lg text-gray-600 mb-6">
+            manage booking listings
+          </p>
+        </div>
+        {/* Create Hotel Button */}
+        <div className="flex justify-end p-4">
+          <button
+            onClick={handleCreateHotel}
+            className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+          >
+            Create Hotel
+          </button>
+        </div>
       </div>
-      <p className="p-4 pl-20 text-lg text-gray-600 mb-6">
-        manage booking listings
-      </p>
-      </div>
-      {/* Create Hotel Button */}
-      <div className="flex justify-end p-4">
-        <button
-          onClick={handleCreateHotel}
-          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-        >
-          Create Hotel
-        </button>
-      </div>
-      </div>
-      
+
       {/* Hotel Cards List */}
-      <div className="flex flex-wrap gap-6 px-15">
-        {hotels.map((hotel: HotelData, index: number) => (
-          <ManageHotelCard
-            key={index}
-            hotel={hotel}
-            onEdit={handleEdit}
-            onDelete={handleDelete}
-          />
-        ))}
+  
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-4">
+          {hotels.map((hotel: HotelData, index: number) => (
+            <ManageHotelCard
+              key={index}
+              hotel={hotel}
+              onEdit={handleEdit}
+              onDelete={handleDelete}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+
   );
 }
 

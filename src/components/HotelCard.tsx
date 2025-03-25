@@ -12,7 +12,7 @@ function HotelCard({hotel}:{hotel:HotelData}) {
     }
     const addressText = hotel.address ? `${hotel.address.street}, ${hotel.address.district}, ${hotel.address.province} ${hotel.address.postalcode}`: "No address info";
   return (
-    <div className="max-w-sm w-full bg-white text-black rounded-lg shadow-md overflow-hidden" onClick={handleClick}>
+    <div className="w-full h-full bg-white text-black rounded-lg shadow-md overflow-hidden" onClick={handleClick}>
       <div className="relative h-52 bg-gray-600">
         {/* <img
           src={hotel.image}

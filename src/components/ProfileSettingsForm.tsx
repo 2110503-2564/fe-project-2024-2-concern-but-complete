@@ -1,36 +1,45 @@
 "use client";
+import { updateUser } from "@/libs/authService";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 
-function ProfileSettingsForm() {
-  const [email, setEmail] = useState("usermail@gmail.com");
-  const [fullName, setFullName] = useState("Name of user");
-  const [phone, setPhone] = useState("000-000-0000");
+function ProfileSettingsForm({
+  email,
+  name,
+  tel,
+}: {
+  email: string;
+  name: string;
+  tel: string;
+}) {
+  const [fullName, setFullName] = useState(name);
+  const [phone, setPhone] = useState(tel);
+  const router = useRouter();
+  const { data: session } = useSession();
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Profile changes saved!");
+    const update = async () => {
+        const response = await updateUser({ name: fullName, tel: phone }, (session as any)?.token);
+        console.log(response);
+    }
+    update();
+    router.replace('/user');
   };
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-[0_0_3px_0_rgba(0,0,0,0.4)] m-20">
-      <h1 className="text-4xl font-bold text-center mb-6">
-        Profile Settings
-      </h1>
+      <h1 className="text-4xl font-bold text-center mb-6">Profile Settings</h1>
       <form onSubmit={handleSubmit}>
         <div className="mb-4">
-          <label
-            htmlFor="email"
-            className="block text-lg font-semibold"
-          >
+          <label htmlFor="email" className="block text-lg font-semibold">
             Email
           </label>
           <p className="text-black">{email}</p>
         </div>
         <div className="mb-4">
-          <label
-            htmlFor="fullName"
-            className="block text-lg font-semibold"
-          >
+          <label htmlFor="fullName" className="block text-lg font-semibold">
             Full Name
           </label>
           <input
@@ -42,10 +51,7 @@ function ProfileSettingsForm() {
           />
         </div>
         <div className="mb-4">
-          <label
-            htmlFor="phone"
-            className="block text-lg font-semibold"
-          >
+          <label htmlFor="phone" className="block text-lg font-semibold">
             Phone
           </label>
           <input

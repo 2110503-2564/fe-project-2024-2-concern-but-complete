@@ -4,6 +4,7 @@ import { Calendar, House, LogOut, SquareUser } from "lucide-react";
 import React from 'react';
 import { useRouter } from 'next/navigation'; 
 import NavigateBtn from './NavigateBtn';
+import { signOut, useSession } from 'next-auth/react';
 
 function UserNavigate() {
   const router = useRouter(); 
@@ -11,7 +12,7 @@ function UserNavigate() {
   const handleClick = (route: string) => {
     router.push(route); 
   };
-
+  const {data: session} = useSession();
   return (
     <div className="w-1/4 h-[515px] relative flex flex-col items-center m-6">
       <div className="w-44 h-44 overflow-hidden rounded-full">
@@ -24,7 +25,7 @@ function UserNavigate() {
         />
       </div>
       <div className="mt-2 justify-start text-3xl font-semibold mb-10">
-        Name of User
+        {session?.user?.name}
       </div>
       <div className="flex flex-col">
         {/* Dashboard Button - Navigates to /user */}
@@ -49,7 +50,7 @@ function UserNavigate() {
         <NavigateBtn
           icon={<LogOut className="w-5 mr-4" />}
           label="Log Out"
-          onClick={() => handleClick("/")} // Navigates to main/home page
+          onClick={() =>signOut({callbackUrl: '/'})} 
         />
       </div>
     </div>

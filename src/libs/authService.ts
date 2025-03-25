@@ -1,3 +1,4 @@
+import { AuthResponse } from "../../interface";
 import { API_BASEURL, apiPath, getToken } from "./shared";
 
 export const loginUser = async (email: string, password: string) => {
@@ -17,21 +18,19 @@ export const loginUser = async (email: string, password: string) => {
     });
 };
 
-export const getCurrentUser = async () => {
-  const token = getToken();
-  return await fetch(apiPath("/auth/me"), {
+export const getCurrentUser = async (token?: string) => {
+  const res = await fetch(apiPath("/auth/me"), {
     method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: `Bearer ${token}`,
     },
-  })
-    .then((response) => {
-      return response.ok ? response.json() : Promise.reject(response);
-    })
-    .catch((error) => {
-      console.error("Error:", error);
-    });
+  });
+  const json = await res.json();
+  if (res.status === 200) {
+    return json;
+  }
+  return undefined;
 };
 
 export interface RegisterForm {
@@ -55,3 +54,19 @@ export const registerUser = async (data: RegisterForm | undefined) => {
   }
   return null;
 };
+
+export const updateUser = async (data: Partial<RegisterForm | undefined>, token ?: string) => {
+  const res = await fetch(apiPath("/auth/update"), {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  const json = await res.json();
+  if (res.status === 200) {
+    return json;
+  }
+  return null;
+}

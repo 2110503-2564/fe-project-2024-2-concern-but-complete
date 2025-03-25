@@ -1,12 +1,7 @@
 import { BookingData, Booking } from "../../interface";
-import { apiPath, getToken } from "./shared";
+import { apiPath } from "./shared";
 
-export const getBookings = async (): Promise<Booking> => {
-  const token = getToken();
-
-  if(!token) {
-    throw new Error('No token found');
-  }
+export const getBookings = async (token?: string): Promise<Booking> => {
   
   try {
     const response = await fetch(apiPath("/bookings"), {
@@ -27,12 +22,7 @@ export const getBookings = async (): Promise<Booking> => {
   }
 };
 
-export const getBookingById = async (bookingId: string): Promise<BookingData> => {
-  const token = getToken();
-
-  if(!token) {
-    throw new Error('No token found');
-  }
+export const getBookingById = async (bookingId: string, token?: string): Promise<BookingData> => {
   
   try {
     const response = await fetch(apiPath(`/bookings/${bookingId}`), {
@@ -57,12 +47,7 @@ export const getBookingById = async (bookingId: string): Promise<BookingData> =>
  * @param endDate - End date of the booking (ISO format string)
  * @returns Promise with the created booking data
  */
-export const createBooking = async (hotelId: string, startDate: string, endDate: string): Promise<BookingData> => {
-  const token = getToken();
-  
-  if(!token) {
-    throw new Error('No token found');
-  }
+export const createBooking = async (hotelId: string, startDate: string, endDate: string, token?: string): Promise<BookingData> => {
 
   try {
     const response = await fetch(apiPath(`/hotels/${hotelId}/bookings`),{
@@ -94,12 +79,7 @@ export const createBooking = async (hotelId: string, startDate: string, endDate:
  * @param endDate - New end date of the booking (ISO format string)
  * @returns Promise with the updated booking data
  */
-export const updateBooking = async (bookingId: string, startDate: string, endDate: string): Promise<BookingData> => {
-  const token = getToken();
-
-  if(!token) {
-    throw new Error('No token found');
-  }
+export const updateBooking = async (bookingId: string, startDate: string, endDate: string, token?: string): Promise<BookingData> => {
   
   try {
     const response = await fetch(apiPath(`/bookings/${bookingId}`),{
@@ -124,12 +104,7 @@ export const updateBooking = async (bookingId: string, startDate: string, endDat
   }
 };
 
-export const deleteBooking = async (bookingId: string): Promise<BookingData> => {
-  const token = getToken();
-
-  if(!token) {
-    throw new Error('No token found');
-  }
+export const deleteBooking = async (bookingId: string, token?: string): Promise<BookingData> => {
   
   try {
     const response = await fetch(apiPath(`/bookings/${bookingId}`), {

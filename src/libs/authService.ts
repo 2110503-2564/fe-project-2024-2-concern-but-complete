@@ -54,3 +54,19 @@ export const registerUser = async (data: RegisterForm | undefined) => {
   }
   return null;
 };
+
+export const updateUser = async (data: Partial<RegisterForm | undefined>, token ?: string) => {
+  const res = await fetch(apiPath("/auth/update"), {
+    method: "PUT",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${token}`,
+    },
+    body: JSON.stringify(data),
+  });
+  const json = await res.json();
+  if (res.status === 200) {
+    return json;
+  }
+  return null;
+}

@@ -17,7 +17,7 @@ function Dashboard() {
     }
     
     const fetchUser = async () => {
-      const user = await getCurrentUser(session?.token);
+      const user = await getCurrentUser((session as any)?.token);
       setUserProfile(user);
     };
     fetchUser();
@@ -39,7 +39,7 @@ function Dashboard() {
         <div className="bg-white flex-1 h-70 p-6 rounded-lg shadow-[0_0_3px_0_rgba(0,0,0,0.2)] flex flex-col justify-between">
           <div>
             <h2 className="text-xl font-semibold mb-4 ">Profile</h2>
-            <div className="space-y-2 ">
+            <div className="space-y-4">
               <div className="flex justify-between">
                 <span className="font-semibold">Name:</span>
                 <span>{userProfile.data.user.name}</span>
@@ -70,7 +70,7 @@ function Dashboard() {
             <div className="space-y-4  ">
               <p className="text-sm  ">manage booking listings</p>
               <p className="text-3xl font-bold ">{userProfile.data.bookingCount}</p>
-              <p className="text-sm ">Total bookings in system</p>
+              <p className="text-sm ">Your bookings in system</p>
             </div>
           </div>
           <button

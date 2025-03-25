@@ -1,20 +1,15 @@
 import { BookingData, Booking } from "../../interface";
-
-const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000';
-
-const getToken = () => {
-    if (typeof window !== 'undefined') {
-      const token = localStorage.getItem('token');
-      return token;
-    }
-    return null;
-  };
+import { apiPath, getToken } from "./shared";
 
 export const getBookings = async (): Promise<Booking> => {
   const token = getToken();
+
+  if(!token) {
+    throw new Error('No token found');
+  }
   
   try {
-    const response = await fetch(`${API_URL}/api/bookings`, {
+    const response = await fetch(apiPath("/bookings"), {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -34,9 +29,13 @@ export const getBookings = async (): Promise<Booking> => {
 
 export const getBookingById = async (bookingId: string): Promise<BookingData> => {
   const token = getToken();
+
+  if(!token) {
+    throw new Error('No token found');
+  }
   
   try {
-    const response = await fetch(`${API_URL}/api/bookings/${bookingId}`, {
+    const response = await fetch(apiPath(`/bookings/${bookingId}`), {
       headers: {
         Authorization: `Bearer ${token}`
       }
@@ -61,8 +60,12 @@ export const getBookingById = async (bookingId: string): Promise<BookingData> =>
 export const createBooking = async (hotelId: string, startDate: string, endDate: string): Promise<BookingData> => {
   const token = getToken();
   
+  if(!token) {
+    throw new Error('No token found');
+  }
+
   try {
-    const response = await fetch(`${API_URL}/api/hotels/${hotelId}/bookings`,{
+    const response = await fetch(apiPath(`/hotels/${hotelId}/bookings`),{
         method: 'POST',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -93,9 +96,13 @@ export const createBooking = async (hotelId: string, startDate: string, endDate:
  */
 export const updateBooking = async (bookingId: string, startDate: string, endDate: string): Promise<BookingData> => {
   const token = getToken();
+
+  if(!token) {
+    throw new Error('No token found');
+  }
   
   try {
-    const response = await fetch(`${API_URL}/api/bookings/${bookingId}`,{
+    const response = await fetch(apiPath(`/bookings/${bookingId}`),{
         method: 'PUT',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -119,9 +126,13 @@ export const updateBooking = async (bookingId: string, startDate: string, endDat
 
 export const deleteBooking = async (bookingId: string): Promise<BookingData> => {
   const token = getToken();
+
+  if(!token) {
+    throw new Error('No token found');
+  }
   
   try {
-    const response = await fetch(`${API_URL}/api/bookings/${bookingId}`, {
+    const response = await fetch(apiPath(`/bookings/${bookingId}`), {
       method: 'DELETE',
       headers: {
         Authorization: `Bearer ${token}`

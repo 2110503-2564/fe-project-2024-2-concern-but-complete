@@ -44,4 +44,5 @@ export interface Booking {
 export interface AuthResponse {
     user: User;
     token: string;
+    bookingCount?: number;
 }

@@ -29,15 +29,17 @@ export const authOptions: AuthOptions = {
     }),
   ],
   pages: {
-    signIn: "/api/auth/login"
+    signIn: "/api/auth/login",
+    newUser: "/api/auth/signup",
   },
   session: { strategy: "jwt" },
   callbacks: {
     async jwt({ token, user }) {
       return { ...token, ...user };
     },
-    async session({ session, token, user }) {
+    async session({ session, token}) {
       session.user = token as unknown as UserResponse;
+      session.token = token.token as unknown as string;
       return session;
     },
   },

@@ -4,9 +4,11 @@ import { useState, useEffect, use } from "react";
 import { HotelData } from "../../../../../../interface";
 import HotelSettingsForm from "@/components/HotelSettingsForm";
 import { ArrowLeft } from "lucide-react";
-import { getHotel } from "@/libs/hotelService";
+import { getHotel, updateHotel } from "@/libs/hotelService";
+import { useSession } from "next-auth/react";
 
 function EditHotelPage({ params }: { params: Promise<{ hid: string }> }) {
+  const {data:session} = useSession();
   const router = useRouter();
   const unwrappedParams = use(params);
   const [hotel, setHotel] = useState<HotelData | null>(null);
@@ -20,7 +22,9 @@ function EditHotelPage({ params }: { params: Promise<{ hid: string }> }) {
   }, [unwrappedParams.hid]);
 
   const handleSave = (updatedHotel: HotelData) => {
-    console.log("Hotel updated:", updatedHotel);
+    // Save the updated hotel
+    console.log("Save updated hotel:", updatedHotel);
+    updateHotel(unwrappedParams.hid, updatedHotel, session?.user?.token);
   };
 
   if (!hotel) {

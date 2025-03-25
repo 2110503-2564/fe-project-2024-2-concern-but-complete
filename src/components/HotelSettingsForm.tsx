@@ -18,12 +18,28 @@ function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
   const [district, setDistrict] = useState(hotel?.address.district || "");
   const [province, setProvince] = useState(hotel?.address.province || "");
   const [postalCode, setPostalCode] = useState(
-    hotel?.address.postal_code || ""
+    hotel?.address.postalcode || ""
   );
   const [tel, setTel] = useState(hotel?.tel || "");
   const router = useRouter();
   const handleSubmit = (e: React.FormEvent) => {
-    console.log("test");
+    e.preventDefault();
+    const updatedHotel: HotelData = {
+      ...hotel,
+      id: hotel?.id || "", // Ensure id is always a string
+      name: hotelName,
+      address: {
+        ...hotel?.address,
+        building_number: buildingNumber,
+        street: street,
+        district: district,
+        province: province,
+        postalcode: postalCode,
+      },
+      tel: tel,
+    };
+    onSave(updatedHotel);
+    router.push("/admin/hotels");
   };
 
   return (

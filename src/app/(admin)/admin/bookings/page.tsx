@@ -7,7 +7,7 @@ import React from 'react'
 function Booking() {
   const router = useRouter();
   return (
-    <div className="flex flex-col bg-white">
+    <div className="flex flex-col">
       <button
         onClick={() => router.push("/admin")}
         className="text-blue-500 text-sm cursor-pointer bg-transparent border-none pt-10 pl-17 flex"

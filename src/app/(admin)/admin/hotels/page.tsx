@@ -26,7 +26,7 @@ function Hotels() {
 
   const handleDelete = async (id: string) => {
    const isConfirmed = window.confirm(
-     "Are you sure you want to cancel this booking?"
+     "Are you sure you want to delete this booking?"
    );
    if (isConfirmed) {
      try {
@@ -55,11 +55,16 @@ function Hotels() {
         <span>Back to Admin Dashboard</span>
       </button>
 
+      <div>
+      <div>
       {/* Title */}
-      <div className="p-4 pl-20 w-full text-3xl font-semibold my-4">
+      <div className="pt-10 pl-20 w-full text-3xl font-semibold ">
         Manage Hotels
       </div>
-
+      <p className="p-4 pl-20 text-lg text-gray-600 mb-6">
+        manage booking listings
+      </p>
+      </div>
       {/* Create Hotel Button */}
       <div className="flex justify-end p-4">
         <button
@@ -69,7 +74,8 @@ function Hotels() {
           Create Hotel
         </button>
       </div>
-
+      </div>
+      
       {/* Hotel Cards List */}
       <div className="flex flex-wrap gap-6 px-15">
         {hotels.map((hotel: HotelData, index: number) => (

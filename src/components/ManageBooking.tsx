@@ -44,7 +44,8 @@ function ManageBookings() {
 
   return (
     <div className="p-6 pl-15">
-      <h1 className="text-3xl font-bold mb-6 text-black">Manage Bookings</h1>
+      <h1 className="text-3xl font-bold mb-3 text-black">Manage Bookings</h1>
+      <p className="text-lg text-gray-600 mb-6">manage booking listings</p>
       <div className="flex gap-6 flex-wrap ">
         {bookings.map((booking) => (
           <BookingCard

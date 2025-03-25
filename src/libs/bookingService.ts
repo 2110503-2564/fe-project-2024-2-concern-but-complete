@@ -3,6 +3,10 @@ import { apiPath, getToken } from "./shared";
 
 export const getBookings = async (): Promise<Booking> => {
   const token = getToken();
+
+  if(!token) {
+    throw new Error('No token found');
+  }
   
   try {
     const response = await fetch(apiPath("/bookings"), {
@@ -25,6 +29,10 @@ export const getBookings = async (): Promise<Booking> => {
 
 export const getBookingById = async (bookingId: string): Promise<BookingData> => {
   const token = getToken();
+
+  if(!token) {
+    throw new Error('No token found');
+  }
   
   try {
     const response = await fetch(apiPath(`/bookings/${bookingId}`), {
@@ -52,6 +60,10 @@ export const getBookingById = async (bookingId: string): Promise<BookingData> =>
 export const createBooking = async (hotelId: string, startDate: string, endDate: string): Promise<BookingData> => {
   const token = getToken();
   
+  if(!token) {
+    throw new Error('No token found');
+  }
+
   try {
     const response = await fetch(apiPath(`/hotels/${hotelId}/bookings`),{
         method: 'POST',
@@ -84,6 +96,10 @@ export const createBooking = async (hotelId: string, startDate: string, endDate:
  */
 export const updateBooking = async (bookingId: string, startDate: string, endDate: string): Promise<BookingData> => {
   const token = getToken();
+
+  if(!token) {
+    throw new Error('No token found');
+  }
   
   try {
     const response = await fetch(apiPath(`/bookings/${bookingId}`),{
@@ -110,6 +126,10 @@ export const updateBooking = async (bookingId: string, startDate: string, endDat
 
 export const deleteBooking = async (bookingId: string): Promise<BookingData> => {
   const token = getToken();
+
+  if(!token) {
+    throw new Error('No token found');
+  }
   
   try {
     const response = await fetch(apiPath(`/bookings/${bookingId}`), {

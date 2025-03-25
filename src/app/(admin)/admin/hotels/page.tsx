@@ -4,76 +4,75 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Hotel, HotelData } from "../../../../../interface";
-import { deleteHotel, getHotels } from "@/libs/hotelService";
+import { getHotels } from "@/libs/hotelService";
 
 function Hotels() {
-    const router = useRouter();
+  const router = useRouter();
 
-      const [hotels, setHotels] = useState<HotelData[]>([]);
-    
-      useEffect(() => {
-        const fetchHotel = async () => {
-          const hotelsResponse = await getHotels();
-          setHotels(hotelsResponse.data);
-        }
-        fetchHotel();
-      }, []);
-
-    const handleEdit = (id: string) => {
-        console.log("Edit hotel with id:", id);
-        router.push(`/admin/hotels/${id}`);
+  const [hotels, setHotels] = useState<Hotel>({ count: 0, data: [] });
+  useEffect(() => {
+    const fetchHotels = async () => {
+      const hotelResponse = await getHotels();
+      setHotels(hotelResponse);
     };
+    fetchHotels();
+  }, []);
 
-    const handleDelete = async (id: string) => {
-      console.log("Delete hotel with id:", id);
-      await deleteHotel(id);
-      setHotels((prevHotels) => prevHotels.filter((hotel) => hotel.id !== id));
-    };
+  const handleEdit = (id: string) => {
+    // Handle hotel edit (could navigate to a different page or show a modal)
+    console.log("Edit hotel with id:", id);
+    router.push(`/admin/hotels/${id}`);
+  };
 
-    const handleCreateHotel = () => {
-      router.push("/admin/hotels/create");
-    };
+  const handleDelete = (id: string) => {
+    // Remove the hotel from the list
+    // setHotels(hotels.data.filter((hotel) => hotel.id !== id));
+    console.log("Delete hotel with id:", id);
+  };
 
-    return (
-        <div className="flex flex-col min-h-screen">
-            {/* Back to Admin Dashboard Button */}
-            <button
-                onClick={() => router.push("/admin")}
-                className="text-blue-500 text-sm cursor-pointer bg-transparent border-none pt-10 pl-20 flex items-center"
-            >
-                <ArrowLeft className="w-5 mr-2" />
-                <span>Back to Admin Dashboard</span>
-            </button>
+  const handleCreateHotel = () => {
+    router.push("/admin/hotels/create");
+  };
 
-            {/* Title */}
-            <div className="p-4 pl-20 w-full text-3xl font-semibold my-4">
-                Manage Hotels
-            </div>
+  return (
+    <div className="flex flex-col min-h-screen">
+      {/* Back to Admin Dashboard Button */}
+      <button
+        onClick={() => router.push("/admin")}
+        className="text-blue-500 text-sm cursor-pointer bg-transparent border-none pt-10 pl-20 flex items-center"
+      >
+        <ArrowLeft className="w-5 mr-2" />
+        <span>Back to Admin Dashboard</span>
+      </button>
 
-            {/* Create Hotel Button */}
-            <div className="flex justify-end p-4">
-                <button
-                    onClick={handleCreateHotel}
-                    className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
-                >
-                    Create Hotel
-                </button>
-            </div>
+      {/* Title */}
+      <div className="p-4 pl-20 w-full text-3xl font-semibold my-4">
+        Manage Hotels
+      </div>
 
-            {/* Hotel Cards List */}
-            <div className="flex flex-wrap gap-6 px-15">
-              {hotels.map(((hotel: HotelData, index) => (
-    
-                    <ManageHotelCard
-                        key={index}
-                        hotel={hotel}
-                        onEdit={handleEdit}
-                        onDelete={handleDelete}
-                    />
-              )))}
-            </div>
-        </div>
-    );
+      {/* Create Hotel Button */}
+      <div className="flex justify-end p-4">
+        <button
+          onClick={handleCreateHotel}
+          className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-700"
+        >
+          Create Hotel
+        </button>
+      </div>
+
+      {/* Hotel Cards List */}
+      <div className="flex flex-wrap gap-6 px-15">
+        {hotels.data.map((hotel: HotelData, index: number) => (
+          <ManageHotelCard
+            key={index}
+            hotel={hotel}
+            onEdit={handleEdit}
+            onDelete={handleDelete}
+          />
+        ))}
+      </div>
+    </div>
+  );
 }
 
 export default Hotels;

@@ -11,28 +11,19 @@ interface HotelSettingsFormProps {
 
 function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
   const [hotelName, setHotelName] = useState(hotel?.name || "");
-  const [buildingNumber, setBuildingNumber] = useState(hotel?.address.building_number || "");
+  const [buildingNumber, setBuildingNumber] = useState(
+    hotel?.address.building_number || ""
+  );
   const [street, setStreet] = useState(hotel?.address.street || "");
   const [district, setDistrict] = useState(hotel?.address.district || "");
   const [province, setProvince] = useState(hotel?.address.province || "");
-  const [postalCode, setPostalCode] = useState(hotel?.address.postal_code || "");
+  const [postalCode, setPostalCode] = useState(
+    hotel?.address.postal_code || ""
+  );
   const [tel, setTel] = useState(hotel?.tel || "");
   const router = useRouter();
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    const updatedHotel: Partial<HotelData> = {
-      name: hotelName,
-      address: {
-        building_number: buildingNumber,
-        street,
-        district,
-        province,
-        postal_code: postalCode,
-      },
-      tel,
-    };
-    onSave(updatedHotel);
-    router.push("/admin/hotels"); 
+    console.log("test");
   };
 
   return (
@@ -47,6 +38,7 @@ function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
             type="text"
             id="hotelName"
             value={hotelName}
+            placeholder="hotel name"
             onChange={(e) => setHotelName(e.target.value)}
             className="w-full p-2 border-2 border-blue-300 rounded-md"
           />
@@ -63,6 +55,7 @@ function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
               type="text"
               id="buildingNumber"
               value={buildingNumber}
+              placeholder="building number"
               onChange={(e) => setBuildingNumber(e.target.value)}
               className="w-full p-2 border-2 border-blue-300 rounded-md"
             />
@@ -76,6 +69,7 @@ function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
               type="text"
               id="street"
               value={street}
+              placeholder="street"
               onChange={(e) => setStreet(e.target.value)}
               className="w-full p-2 border-2 border-blue-300 rounded-md"
             />
@@ -89,6 +83,7 @@ function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
               type="text"
               id="district"
               value={district}
+              placeholder="district"
               onChange={(e) => setDistrict(e.target.value)}
               className="w-full p-2 border-2 border-blue-300 rounded-md"
             />
@@ -102,6 +97,7 @@ function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
               type="text"
               id="province"
               value={province}
+              placeholder="province"
               onChange={(e) => setProvince(e.target.value)}
               className="w-full p-2 border-2 border-blue-300 rounded-md"
             />
@@ -115,6 +111,7 @@ function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
               type="text"
               id="postalCode"
               value={postalCode}
+              placeholder="postal code"
               onChange={(e) => setPostalCode(e.target.value)}
               className="w-full p-2 border-2 border-blue-300 rounded-md"
             />

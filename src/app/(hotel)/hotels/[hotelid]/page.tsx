@@ -7,9 +7,11 @@ import DateReserve from "@/components/DateReserve";
 import { getHotel } from "@/libs/hotelService";
 import { HotelData } from "../../../../../interface";
 import { useRouter } from "next/navigation";
+import { useSession } from "next-auth/react";
+import { createBooking } from "@/libs/bookingService";
 
 export default function HotelDetailPage({ params }: { params: Promise<{ hotelid: string }> }) {
-  const session = "null";
+  const {data:session} = useSession();
   const unwrappedParams = use(params);
   const router = useRouter();
 
@@ -55,6 +57,25 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
     
     return false;
   };
+
+  const handleConfirmBooking = async () => {
+    if(!startDate || !endDate){
+      alert('Please select check-in and check-out dates');
+      return;
+    }
+
+    try {
+      const startDateISO = startDate.toISOString();
+      const endDateISO = endDate.toISOString();
+
+      const newBooking = await createBooking(unwrappedParams.hotelid, startDateISO, endDateISO, session?.user?.token);
+      alert('Booking successful!');
+      router.push('/user/bookings');
+
+    }catch(error){
+      console.log('Error creating booking:', error);
+    }
+  }
 
   const addressText = hotel?.address
     ? `${hotel?.address?.street}, ${hotel?.address?.district}, ${hotel?.address?.province} ${hotel?.address?.postal_code}`
@@ -102,7 +123,7 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
                 shouldDisableDate={isEndDateDisabled}
               />
             </div>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md w-full mb-4">
+            <button onClick={handleConfirmBooking} className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md w-full mb-4">
               Confirm Booking
             </button>
             <p className="text-sm text-gray-500">Note: You can book up to 3 nights per hotel.</p>
@@ -112,10 +133,10 @@ export default function HotelDetailPage({ params }: { params: Promise<{ hotelid:
           <div className="border border-gray-300 bg-gray-100 rounded-2xl py-4 px-10 w-full md:w-[400px] md:h-52 md:mr-52">
             <h2 className="text-xl font-semibold mb-4">Book your hotel</h2>
             <p className="mb-4 text-gray-400">Please login to book this hotel</p>
-            <button className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-xl w-full mb-2">
+            <button onClick={()=>router.push('/api/auth/login')} className="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-xl w-full mb-2">
               Login
             </button>
-            <button className="border border-gray-300 bg-white hover:bg-gray-300 text-black px-4 py-2 rounded-xl w-full">
+            <button onClick={()=>router.push('/api/auth/signup')} className="border border-gray-300 bg-white hover:bg-gray-300 text-black px-4 py-2 rounded-xl w-full">
               Sign Up
             </button>
           </div>

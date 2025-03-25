@@ -5,10 +5,12 @@ import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Booking, Hotel } from "../../../../interface";
 import { getBookings } from "@/libs/bookingService";
+import { useSession } from "next-auth/react";
 
 
 function AdminDashboard() {
     const router = useRouter(); 
+    const {data: session} = useSession();
 
     const [hotels, setHotels] = useState<Hotel>();
     useEffect(() => {
@@ -22,7 +24,7 @@ function AdminDashboard() {
     const [bookings, setBookings] = useState<Booking>();
     useEffect(() => {
       const fetchBookings = async () => {
-        const bookingResponse = await getBookings();
+        const bookingResponse = await getBookings((session as any)?.token);
         setBookings(bookingResponse);
       };
       fetchBookings();

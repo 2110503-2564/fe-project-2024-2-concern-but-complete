@@ -21,7 +21,6 @@ function Hotels() {
   }, []);
 
   const handleEdit = (id: string) => {
-    console.log("Edit hotel with id:", id);
     router.push(`/admin/hotels/${id}`);
   };
 
@@ -29,8 +28,6 @@ function Hotels() {
    const isConfirmed = window.confirm(
      "Are you sure you want to cancel this booking?"
    );
-   console.log(session.data?.user?.token);
-   console.log((session as any)?.token);
    if (isConfirmed) {
      try {
        await deleteHotel(id, session.data?.user?.token);

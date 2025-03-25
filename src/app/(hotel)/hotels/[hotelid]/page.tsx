@@ -97,7 +97,7 @@ export default function HotelDetailPage({params}: {params: {hotelid: string}}) {
         <div className="flex-1">
           <h1 className="text-3xl font-bold mb-4">{hotel?.name}</h1>
           <div className="w-full h-[300px] bg-gray-300 rounded-3xl text-gray-700 flex items-center justify-center mb-4 md:w-4xl md:h-[500px]">
-            pic
+            <img src='/img/hotel.jpg' alt='hotel' className="w-full h-full object-cover rounded-3xl" />
           </div>
           <div className="flex items-center mb-3">
             <MapPin />

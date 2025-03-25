@@ -98,6 +98,9 @@ export const deleteHotel = async (id: string,token?:string): Promise<void> => {
       const errorData = await response.json();
       throw new Error(errorData.message || `Error: ${response.status}`);
     }
+    const jsonResponse = await response.json();
+    return jsonResponse.data;
+
   } catch (error) {
     console.error(`Error deleting hotel with ID ${id}:`, error);
     throw error;

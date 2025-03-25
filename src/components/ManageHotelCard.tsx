@@ -27,7 +27,6 @@ function ManageHotelCard({ hotel, onEdit, onDelete }: ManageHotelCardProps) {
           <Trash2
             className="absolute bottom-2 right-2 text-red-500 cursor-pointer"
             onClick={() => {
-              alert("Are you sure you want to delete this hotel?");
               onDelete(hotel.id);
             }}
           />

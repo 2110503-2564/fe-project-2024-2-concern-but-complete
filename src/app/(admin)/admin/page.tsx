@@ -1,15 +1,32 @@
 'use client'
+import { getHotels } from "@/libs/hotelService";
 import { ArrowRight, Building, Calendar, UserRoundCog } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { Booking, Hotel } from "../../../../interface";
+import { getBookings } from "@/libs/bookingService";
+
 
 function AdminDashboard() {
     const router = useRouter(); 
+
+    const [hotels, setHotels] = useState<Hotel>();
+    useEffect(() => {
+        const fetchHotels = async () => {
+          const hotelResponse = await getHotels();
+          setHotels(hotelResponse);
+        };
+        fetchHotels();
+    }, []);
     
-    const handleClick = (buttonLabel: string, route: string) => {
-        alert(`You clicked on: ${buttonLabel}`);
-        router.push(route); 
-    };
+    const [bookings, setBookings] = useState<Booking>();
+    useEffect(() => {
+      const fetchBookings = async () => {
+        const bookingResponse = await getBookings();
+        setBookings(bookingResponse);
+      };
+      fetchBookings();
+    }, []);
         
     return (
       <div className="min-h-screen flex flex-col p-8 mx-auto ">
@@ -31,13 +48,13 @@ function AdminDashboard() {
                 <p className="text-sm   ">
                   manage hotel listings
                 </p>
-                <p className="text-3xl font-bold ">5</p>
+                <p className="text-3xl font-bold ">{hotels?.count}</p>
                 <p className="text-sm">Total hotels in system</p>
               </div>
             </div>
             <button
               className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-800 flex items-center justify-center gap-2"
-              onClick={() => handleClick("manage hotel", "/admin/hotels")}
+              onClick={() => router.push("/admin/hotels")}
             >
               <span>Manage Hotels</span>
               <ArrowRight />
@@ -55,7 +72,7 @@ function AdminDashboard() {
               <p className="text-sm">
                 manage booking listings
               </p>
-              <p className="text-3xl font-bold">7</p>
+              <p className="text-3xl font-bold">{bookings?.count}</p>
               <p className="text-sm">
                 Total bookings in system
               </p>
@@ -63,7 +80,7 @@ function AdminDashboard() {
             </div>
             <button
               className="w-full px-4 py-2 bg-blue-500 text-white rounded hover:bg-blue-800 flex items-center justify-center gap-2"
-              onClick={() => handleClick("manage booking", "/admin/bookings")}
+              onClick={() => router.push("/admin/bookings")}
             >
               <span>Manage Bookings</span>
               <ArrowRight />

@@ -4,16 +4,18 @@ import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
 import { Hotel, HotelData } from "../../../../../interface";
-import { getHotels } from "@/libs/hotelService";
+import { deleteHotel, getHotels } from "@/libs/hotelService";
+import { useSession } from "next-auth/react";
 
 function Hotels() {
   const router = useRouter();
+  const session = useSession();
 
-  const [hotels, setHotels] = useState<Hotel>({ count: 0, data: [] });
+  const [hotels, setHotels] = useState<HotelData[]>([]);
   useEffect(() => {
     const fetchHotels = async () => {
       const hotelResponse = await getHotels();
-      setHotels(hotelResponse);
+      setHotels(hotelResponse.data);
     };
     fetchHotels();
   }, []);
@@ -23,9 +25,23 @@ function Hotels() {
     router.push(`/admin/hotels/${id}`);
   };
 
-  const handleDelete = (id: string) => {
-    console.log("Delete hotel with id:", id);
-  };
+  const handleDelete = async (id: string) => {
+   const isConfirmed = window.confirm(
+     "Are you sure you want to cancel this booking?"
+   );
+   console.log(session.data?.user?.token);
+   console.log((session as any)?.token);
+   if (isConfirmed) {
+     try {
+       await deleteHotel(id, session.data?.user?.token);
+       setHotels((prevHotels) => {
+         return prevHotels.filter( (hotels)=> hotels.id !== id);
+       });
+     } catch (error) {
+       console.log("Error delete hotel:", error);
+     }
+   }
+ };
 
   const handleCreateHotel = () => {
     router.push("/admin/hotels/create");
@@ -59,7 +75,7 @@ function Hotels() {
 
       {/* Hotel Cards List */}
       <div className="flex flex-wrap gap-6 px-15">
-        {hotels.data.map((hotel: HotelData, index: number) => (
+        {hotels.map((hotel: HotelData, index: number) => (
           <ManageHotelCard
             key={index}
             hotel={hotel}

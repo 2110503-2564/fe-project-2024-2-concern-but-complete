@@ -2,6 +2,7 @@
 
 import { loginUser } from "@/libs/authService";
 import { AuthOptions } from "next-auth";
+import { JWT } from "next-auth/jwt";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 export interface UserResponse {
@@ -37,7 +38,7 @@ export const authOptions: AuthOptions = {
     async jwt({ token, user }) {
       return { ...token, ...user };
     },
-    async session({ session, token}) {
+    async session({ session, token}: {session: any, token: JWT}) {
       session.user = token as unknown as UserResponse;
       session.token = token.token as unknown as string;
       return session;

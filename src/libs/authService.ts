@@ -65,7 +65,7 @@ export const updateUser = async (data: Partial<RegisterForm | undefined>, token 
     body: JSON.stringify(data),
   });
   const json = await res.json();
-  if (res.status === 200) {
+  if (res.status === 201 || (json && json.success === false)) {
     return json;
   }
   return null;

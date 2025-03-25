@@ -30,7 +30,7 @@ function Hotels() {
    );
    if (isConfirmed) {
      try {
-       await deleteHotel(id, session.data?.user?.token);
+       await deleteHotel(id, (session.data?.user as any)?.token);
        setHotels((prevHotels) => {
          return prevHotels.filter( (hotels)=> hotels.id !== id);
        });

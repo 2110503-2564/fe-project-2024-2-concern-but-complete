@@ -20,12 +20,16 @@ function ProfileSettingsForm({
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const update = async () => {
-        const response = await updateUser({ name: fullName, tel: phone }, (session as any)?.token);
-        console.log(response);
-    }
-    update();
-    router.replace('/user');
+    updateUser({ name: fullName, tel: phone }, (session as any)?.token).then(
+      (res) => {
+        if (res) {
+          alert("Profile updated successfully");
+          router.push("/user");
+        } else {
+          alert("Profile update failed");
+        }
+      }
+    );
   };
 
   return (

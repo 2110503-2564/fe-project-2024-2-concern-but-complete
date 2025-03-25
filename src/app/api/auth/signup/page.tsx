@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { RegisterForm, registerUser } from "@/libs/authService";
 import { TextField } from "@mui/material";
@@ -27,11 +27,13 @@ const SignUpPage = () => {
     setFeedBack("");
 
     const user = await registerUser(userInput);
+    console.log(user);
     if (user) {
-        if (user.success === false) {
-            setFeedBack(user.msg || "Registration failed");
-            return;
-        }
+      if (user.success === false) {
+        alert(user.msg);
+        setFeedBack(user.msg || "Registration failed");
+        return;
+      }
       const response = await signIn("credentials", {
         email: userInput.email,
         password: userInput.password,

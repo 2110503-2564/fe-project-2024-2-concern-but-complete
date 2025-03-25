@@ -21,10 +21,8 @@ function EditHotelPage({ params }: { params: Promise<{ hid: string }> }) {
     fetchHotel();
   }, [unwrappedParams.hid]);
 
-  const handleSave = (updatedHotel: HotelData) => {
-    // Save the updated hotel
-    console.log("Save updated hotel:", updatedHotel);
-    updateHotel(unwrappedParams.hid, updatedHotel, session?.user?.token);
+  const handleEdit = (updatedHotel: HotelData) => {
+    updateHotel(unwrappedParams.hid, updatedHotel, (session as any)?.token);
   };
 
   if (!hotel) {
@@ -41,7 +39,7 @@ function EditHotelPage({ params }: { params: Promise<{ hid: string }> }) {
         <ArrowLeft className="w-5 mr-2" />
         <span>Back</span>
       </button>
-      <HotelSettingsForm hotel={hotel} onSave={handleSave} title="Edit Hotel" />
+      <HotelSettingsForm hotel={hotel} onSave={handleEdit} title="Edit Hotel" />
     </div>
   );
 }

@@ -19,14 +19,11 @@ function Hotels() {
   }, []);
 
   const handleEdit = (id: string) => {
-    // Handle hotel edit (could navigate to a different page or show a modal)
     console.log("Edit hotel with id:", id);
     router.push(`/admin/hotels/${id}`);
   };
 
   const handleDelete = (id: string) => {
-    // Remove the hotel from the list
-    // setHotels(hotels.data.filter((hotel) => hotel.id !== id));
     console.log("Delete hotel with id:", id);
   };
 

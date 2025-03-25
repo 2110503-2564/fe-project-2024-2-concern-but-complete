@@ -151,7 +151,7 @@ function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
           type="submit"
           className="w-full bg-blue-500 text-white font-semibold py-2 rounded-md hover:bg-blue-600"
         >
-          Save Changes
+          {title}
         </button>
       </form>
     </div>

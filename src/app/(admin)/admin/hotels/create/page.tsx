@@ -4,19 +4,22 @@ import { useState, useEffect } from "react";
 import { HotelData } from "../../../../../../interface"; 
 import HotelSettingsForm from "@/components/HotelSettingsForm"; 
 import { ArrowLeft } from "lucide-react";
+import { createHotel } from "@/libs/hotelService";
+import { useSession } from "next-auth/react";
 
 function CreateHotelPage() {
     const router = useRouter();
     const { hid } = useParams();
-    const [hotel, setHotel] = useState<HotelData | undefined>(undefined);
+    const {data:session} = useSession();
+    const [hotel] = useState<HotelData | undefined>(undefined);
 
 
-    const handleSave = (updatedHotel: HotelData) => {
-        console.log("Hotel updated:", updatedHotel);
-    };
+  const handleCreate = async(updatedHotel: HotelData) => {
+    console.log("Save updated hotel:", updatedHotel);
+    const newHotel = await createHotel(updatedHotel, (session as any)?.token);
+  };
 
-
-    return (
+  return (
       <div>
         {/* Back to Admin Dashboard Button */}
         <button
@@ -26,7 +29,7 @@ function CreateHotelPage() {
           <ArrowLeft className="w-5 mr-2" />
           <span>Back</span>
         </button>
-        <HotelSettingsForm hotel={hotel} onSave={handleSave} title="Create Hotel"/>
+        <HotelSettingsForm hotel={hotel} onSave={handleCreate} title="Create Hotel" />
       </div>
     );
 }

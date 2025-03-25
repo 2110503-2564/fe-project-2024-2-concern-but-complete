@@ -2,74 +2,32 @@
 import ManageHotelCard from "@/components/ManageHotelCard";
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
-import React, { useState } from "react";
-import { HotelData } from "../../../../../interface";
+import React, { useEffect, useState } from "react";
+import { Hotel, HotelData } from "../../../../../interface";
+import { deleteHotel, getHotels } from "@/libs/hotelService";
 
 function Hotels() {
     const router = useRouter();
 
-    // Initial list of hotels (this could come from an API in a real-world scenario)
-    const [hotels, setHotels] = useState<HotelData[]>([
-        {
-          id: "1",
-          name: "Hotel 1",
-          tel: "123456789",
-          address: {
-            building_number: "1234",
-            street: "1234 Street",
-            district: "District",
-            province: "Province",
-            postal_code: "12345",
-          },
-        },
-        {
-          id: "2",
-          name: "Hotel 2",
-          tel: "123456789",
-          address: {
-            building_number: "1234",
-            street: "1235 Street",
-            district: "District",
-            province: "Province",
-            postal_code: "12345",
-          },
-        },
-        {
-          id: "3",
-          name: "Hotel 3",
-          tel: "123456789",
-          address: {
-            building_number: "1234",
-            street: "1236 Street",
-            district: "District",
-            province: "Province",
-            postal_code: "12345",
-          },
-        },
-        {
-          id: "4",
-          name: "Hotel 4",
-          tel: "123456789",
-          address: {
-            building_number: "1234",
-            street: "1236 Street",
-            district: "District",
-            province: "Province",
-            postal_code: "12345",
-          },
-        },
-      ]
-    );
+      const [hotels, setHotels] = useState<HotelData[]>([]);
+    
+      useEffect(() => {
+        const fetchHotel = async () => {
+          const hotelsResponse = await getHotels();
+          setHotels(hotelsResponse.data);
+        }
+        fetchHotel();
+      }, []);
 
     const handleEdit = (id: string) => {
-        // Handle hotel edit (could navigate to a different page or show a modal)
         console.log("Edit hotel with id:", id);
         router.push(`/admin/hotels/${id}`);
     };
 
-    const handleDelete = (id: string) => {
-        // Remove the hotel from the list
-        setHotels(hotels.filter((hotel) => hotel.id !== id));
+    const handleDelete = async (id: string) => {
+      console.log("Delete hotel with id:", id);
+      await deleteHotel(id);
+      setHotels((prevHotels) => prevHotels.filter((hotel) => hotel.id !== id));
     };
 
     const handleCreateHotel = () => {
@@ -104,14 +62,15 @@ function Hotels() {
 
             {/* Hotel Cards List */}
             <div className="flex flex-wrap gap-6 px-15">
-                {hotels.map((hotel) => (
+              {hotels.map(((hotel: HotelData, index) => (
+    
                     <ManageHotelCard
-                        key={hotel.id}
+                        key={index}
                         hotel={hotel}
                         onEdit={handleEdit}
                         onDelete={handleDelete}
                     />
-                ))}
+              )))}
             </div>
         </div>
     );

@@ -27,7 +27,7 @@ function UserNavigate() {
       <div className="mt-2 justify-start text-3xl font-semibold mb-10">
         {session?.user?.name}
       </div>
-      <div className="flex flex-col rounded-2xl">
+      <div className="flex flex-col rounded-lg">
         {/* Dashboard Button - Navigates to /user */}
         <NavigateBtn
           icon={<House className="w-5 mr-4" />}

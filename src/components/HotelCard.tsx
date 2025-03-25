@@ -14,11 +14,11 @@ function HotelCard({hotel}:{hotel:HotelData}) {
   return (
     <div className="w-full h-full bg-white text-black rounded-lg shadow-md overflow-hidden" onClick={handleClick}>
       <div className="relative h-52 bg-gray-600">
-        {/* <img
-          src={hotel.image}
+        <img
+          src={"/img/hotel.jpg"}
           alt="hotel"
           className="w-full h-full object-cover"
-        /> */}
+        /> 
       </div>
       <div className="p-4">
         <h2 className="text-2xl font-semibold mb-2">{hotel.name}</h2>

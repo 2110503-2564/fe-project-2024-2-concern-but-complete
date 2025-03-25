@@ -141,6 +141,7 @@ function HotelSettingsForm({ hotel, onSave, title }: HotelSettingsFormProps) {
               type="text"
               id="tel"
               value={tel}
+              placeholder="phone number"
               onChange={(e) => setTel(e.target.value)}
               className="w-full p-2 border-2 border-blue-300 rounded-md"
             />

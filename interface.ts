@@ -30,6 +30,7 @@ export interface User {
 
 export interface BookingData {
     id: string;
+    _id: string;
     start_date: string;
     end_date: string;
     hotel: HotelData;

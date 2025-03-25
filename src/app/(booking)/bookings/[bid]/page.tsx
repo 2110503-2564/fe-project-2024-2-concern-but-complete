@@ -1,5 +1,5 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import {
   ArrowLeft,
@@ -13,6 +13,9 @@ import {
 } from "lucide-react";
 import dayjs, { Dayjs } from "dayjs";
 import DateReserve from "@/components/DateReserve";
+import { getBookingById, updateBooking } from "@/libs/bookingService";
+import { useSession } from "next-auth/react";
+import { BookingData } from "../../../../../interface";
 
 function calculateNights(checkIn: string, checkOut: string): number {
   const checkInDate = new Date(checkIn);
@@ -23,49 +26,24 @@ function calculateNights(checkIn: string, checkOut: string): number {
 }
 
 export default function BookingDetailPage({
-  params: paramsPromise,
+  params,
 }: {
-  params: Promise<{ bid: string }>;
+  params: { bid: string };
 }) {
   const router = useRouter();
-
-  const [params, setParams] = useState<{ bid: string } | null>(null);
-  const [booking, setBooking] = useState<any>(null); // State for booking data
-
-  useEffect(() => {
-    paramsPromise.then((data) => {
-      setParams(data); // Set the params to trigger re-render
-    });
-  }, [paramsPromise]);
+  const { data: session } = useSession();
+  const [booking, setBooking] = useState<BookingData>();
 
   useEffect(() => {
-    if (params?.bid) {
-      // Mock data fetching for booking details
-      const mockBookings = new Map();
-      mockBookings.set("1", {
-        id: "1",
-        hotelName: "Chabatai Hotel1",
-        checkIn: "2024-09-10",
-        checkOut: "2024-09-12",
-        location: "Bangkok, Thailand",
-        guestName: "Name of User",
-        guestEmail: "useremail@gmail.com",
-        guestPhone: "012-345-6789",
-      });
-      mockBookings.set("2", {
-        id: "2",
-        hotelName: "Chabatai Hotel2",
-        checkIn: "2024-09-11",
-        checkOut: "2024-09-12",
-        location: "Bangkok, Thailand",
-        guestName: "Name of User",
-        guestEmail: "useremail@gmail.com",
-        guestPhone: "012-345-6789",
-      });
-
-      setBooking(mockBookings.get(params.bid)); // Fetch the booking details
-    }
-  }, [params]);
+    const fetchDetails = async () => {
+      const bookingDetails = await getBookingById(
+        params.bid,
+        (session as any)?.token
+      );
+      setBooking(bookingDetails);
+    };
+    fetchDetails();
+  }, []);
 
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
@@ -73,13 +51,32 @@ export default function BookingDetailPage({
   const handleStartDateChange = (date: Dayjs) => {
     setStartDate(date);
     if (endDate && (endDate.isBefore(date) || endDate.diff(date, "day") > 3)) {
-      setEndDate(null); 
+      setEndDate(null);
     }
   };
 
   const handleEndDateChange = (date: Dayjs) => {
     if (startDate && date.diff(startDate, "day") <= 3) {
       setEndDate(date);
+    }
+  };
+
+  const handleUpdateBookingDate = async () => {
+    if (startDate && endDate) {
+      const response = await updateBooking(
+        params.bid,
+        startDate.add(1, "day").toISOString(),
+        endDate.add(1, "day").toISOString(),
+        (session as any)?.token
+      );
+      response && setBooking((prevBooking) => {
+        if (!prevBooking) return prevBooking;
+        return {
+          ...prevBooking,
+          start_date: startDate.add(1, "day").toISOString(),
+          end_date: endDate.add(1, "day").toISOString(),
+        };
+      });
     }
   };
 
@@ -121,15 +118,15 @@ export default function BookingDetailPage({
             <h3 className="text-2xl font-semibold mb-3">Hotel Information</h3>
             <p className=" mb-2 text-lg flex items-center">
               <Building2 className="w-5 h-5 mr-2" />
-              <strong>{booking.hotelName}</strong>
+              <strong>{booking.hotel.name}</strong>
             </p>
             <p className=" mb-2 text-lg flex">
               <MapPin className="w-5 h-5 mr-2" />
-              <span>{booking.location}</span>
+              <span>{`${booking.hotel.address.district}, ${booking.hotel.address.province}`}</span>
             </p>
             <p className=" mb-2 text-lg flex">
               <Phone className="w-5 h-5 mr-2" />
-              <span>{booking.guestPhone}</span>
+              <span>{booking.user.tel}</span>
             </p>
           </div>
           <div className="flex justify-between h-50">
@@ -137,31 +134,33 @@ export default function BookingDetailPage({
               <h3 className="text-lg font-semibold mb-2">Stay Details</h3>
               <p className="mb-1 flex items-center">
                 <Calendar className="w-5 h-5 mr-2" />
-                <strong className="mr-1">Check-in:</strong> {booking.checkIn}
+                <strong className="mr-1">Check-in:</strong>{" "}
+                {booking.start_date.slice(0, 10)}
               </p>
               <p className="mb-1 flex items-center">
                 <Calendar className="w-5 h-5 mr-2" />
-                <strong className="mr-1">Check-out:</strong> {booking.checkOut}
+                <strong className="mr-1">Check-out:</strong>{" "}
+                {booking.end_date.slice(0, 10)}
               </p>
               <p className="mb-1 flex items-center">
                 <Clock className="w-5 h-5 mr-2" />
                 <strong className="mr-1">Duration:</strong>{" "}
-                {calculateNights(booking.checkIn, booking.checkOut)} Nights
+                {calculateNights(booking.start_date, booking.end_date)} Nights
               </p>
             </div>
             <div className="info-section m-5 ml-0 w-1/2 shadow-[0_0_3px_0_rgba(0,0,0,0.2)] p-5 rounded-xl">
               <h3 className="text-lg font-semibold mb-2">Guest Information</h3>
               <p className="flex items-center font-bold">
                 <User className="w-5 h-5 mr-2 mb-2" />
-                {booking.guestName}
+                {booking.user.name}
               </p>
               <p className="flex items-center">
                 <Mail className="w-5 h-5 mr-2 mb-2" />
-                {booking.guestEmail}
+                {booking.user.email}
               </p>
               <p className="flex items-center">
                 <Phone className="w-5 h-5 mr-2 mb-2" />
-                {booking.guestPhone}
+                {booking.user.tel}
               </p>
             </div>
           </div>
@@ -182,7 +181,10 @@ export default function BookingDetailPage({
             disableBeforeDate={startDate}
             shouldDisableDate={isEndDateDisabled}
           />
-          <button className="save-btn bg-blue-500 text-white py-2 px-4 rounded mt-2 hover:bg-blue-700 w-full">
+          <button
+            className="save-btn bg-blue-500 text-white py-2 px-4 rounded mt-2 hover:bg-blue-700 w-full"
+            onClick={handleUpdateBookingDate}
+          >
             Save Changes
           </button>
         </div>

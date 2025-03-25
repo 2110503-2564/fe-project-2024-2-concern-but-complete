@@ -3,65 +3,26 @@ import React, { useState, useEffect } from "react";
 import BookingCard from "./BookingCard";
 import { useRouter } from "next/navigation";
 import { BookingData } from "../../interface";
+import { useSession } from "next-auth/react";
+import { getBookings } from "@/libs/bookingService";
 
 function ManageBookings() {
-    const [bookings, setBookings] = useState<BookingData[]>([
-        {
-            id: "1",
-            start_date: "2024-09-10",
-            end_date: "2024-09-12",
-            hotel: {
-                id: "h1",
-                name: "Chabatai Hotel1",
-                address: {
-                    building_number: "123",
-                    street: "Main St",
-                    district: "District 1",
-                    province: "Bangkok",
-                    postal_code: "10100",
-                },
-                tel: "123456789",
-            },
-            user: {
-                id: "u1",
-                name: "John Doe",
-                tel: "987654321",
-                email: "john@example.com",
-                password: "password",
-                role: "user",
-            },
-        },
-        {
-            id: "2",
-            start_date: "2024-09-11",
-            end_date: "2024-09-12",
-            hotel: {
-                id: "h2",
-                name: "Chabatai Hotel2",
-                address: {
-                    building_number: "124",
-                    street: "Second St",
-                    district: "District 2",
-                    province: "Bangkok",
-                    postal_code: "10200",
-                },
-                tel: "123456780",
-            },
-            user: {
-                id: "u2",
-                name: "Jane Doe",
-                tel: "987654320",
-                email: "jane@example.com",
-                password: "password",
-                role: "user",
-            },
-        },
-    ]);
+    const [bookings, setBookings] = useState<BookingData[]>([]);
+    const {data: session} = useSession();
+
+    useEffect(() => {
+        const fetchBookings = async () => {
+            const response = await getBookings((session as any)?.token);
+            setBookings((oldBookings) => {
+                return response.data;
+            });
+        }
+        fetchBookings();
+    }, []);
 
     const router = useRouter();
 
     const handleViewDetails = (id: string) => {
-        alert(`Viewing details for booking with ID: ${id}`);
         router.push(`/bookings/${id}`);
     };
 
@@ -69,7 +30,7 @@ function ManageBookings() {
         setBookings((prevBookings) =>
             prevBookings.filter((booking) => booking.id !== id)
         );
-        alert(`Booking with ID: ${id} has been canceled`);
+        
     };
 
     return (
@@ -78,13 +39,13 @@ function ManageBookings() {
             <div className="flex gap-6 flex-wrap ">
                 {bookings.map((booking) => (
                     <BookingCard
-                        key={booking.id}
+                        key={booking._id}
                         hotelName={booking.hotel.name}
-                        checkIn={booking.start_date}
-                        checkOut={booking.end_date}
+                        checkIn={booking.start_date.slice(0, 10)}
+                        checkOut={booking.end_date.slice(0, 10)}
                         location={`${booking.hotel.address.district}, ${booking.hotel.address.province}`}
-                        onViewDetails={() => handleViewDetails(booking.id)}
-                        onCancel={() => handleCancel(booking.id)}
+                        onViewDetails={() => handleViewDetails(booking._id)}
+                        onCancel={() => handleCancel(booking._id)}
                     />
                 ))}
             </div>

@@ -5,10 +5,13 @@ import { useRouter } from "next/navigation";
 import { BookingData } from "../../interface";
 import { useSession } from "next-auth/react";
 import { deleteBooking, getBookings } from "@/libs/bookingService";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 function ManageBookings() {
   const [bookings, setBookings] = useState<BookingData[]>([]);
   const { data: session } = useSession();
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [bookingToDelete, setBookingToDelete] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchBookings = async () => {
@@ -26,16 +29,19 @@ function ManageBookings() {
     router.push(`/bookings/${id}`);
   };
 
-  const handleCancel = async (id: string) => {
-    const isConfirmed = window.confirm(
-      "Are you sure you want to cancel this booking?"
-    );
-    if (isConfirmed) {
+  const handleCancelClick = (id: string) => {
+    setBookingToDelete(id);
+    setDeleteModalOpen(true);
+  }
+
+  const handleCancel = async () => {
+    if (bookingToDelete) {
       try {
-        await deleteBooking(id, (session as any)?.token);
+        await deleteBooking(bookingToDelete, (session as any)?.token);
         setBookings((prevBookings) => {
-          return prevBookings.filter((booking) => booking._id !== id);
+          return prevBookings.filter((booking) => booking._id !== bookingToDelete);
         });
+        setDeleteModalOpen(false);
       } catch (error) {
         console.log("Error cancelling booking:", error);
       }
@@ -55,10 +61,16 @@ function ManageBookings() {
             checkOut={booking.end_date.slice(0, 10)}
             location={`${booking.hotel.address.district}, ${booking.hotel.address.province}`}
             onViewDetails={() => handleViewDetails(booking._id)}
-            onCancel={() => handleCancel(booking._id)}
+            onCancel={() => handleCancelClick(booking._id)}
           />
         ))}
       </div>
+      <DeleteConfirmationModal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleCancel}
+        itemName="this booking"
+      />
     </div>
   );
 }

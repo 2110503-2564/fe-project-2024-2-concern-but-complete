@@ -1,5 +1,6 @@
 "use client";
 import ManageHotelCard from "@/components/ManageHotelCard";
+import DeleteConfirmationModal from "@/components/DeleteConfirmationModal"; // New import
 import { ArrowLeft } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
@@ -12,6 +13,9 @@ function Hotels() {
   const session = useSession();
 
   const [hotels, setHotels] = useState<HotelData[]>([]);
+  const [deleteModalOpen, setDeleteModalOpen] = useState(false);
+  const [hotelToDelete, setHotelToDelete] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchHotels = async () => {
       const hotelResponse = await getHotels();
@@ -24,21 +28,24 @@ function Hotels() {
     router.push(`/admin/hotels/${id}`);
   };
 
-  const handleDelete = async (id: string) => {
-   const isConfirmed = window.confirm(
-     "Are you sure you want to delete this booking?"
-   );
-   if (isConfirmed) {
-     try {
-       await deleteHotel(id, (session.data?.user as any)?.token);
-       setHotels((prevHotels) => {
-         return prevHotels.filter( (hotels)=> hotels.id !== id);
-       });
-     } catch (error) {
-       console.log("Error delete hotel:", error);
-     }
-   }
- };
+  const handleDeleteClick = (id: string) => {
+    setHotelToDelete(id);
+    setDeleteModalOpen(true);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (hotelToDelete) {
+      try {
+        await deleteHotel(hotelToDelete, (session.data?.user as any)?.token);
+        setHotels((prevHotels) => 
+          prevHotels.filter((hotel) => hotel.id !== hotelToDelete)
+        );
+        setDeleteModalOpen(false);
+      } catch (error) {
+        console.log("Error delete hotel:", error);
+      }
+    }
+  };
 
   const handleCreateHotel = () => {
     router.push("/admin/hotels/create");
@@ -46,7 +53,6 @@ function Hotels() {
 
   return (
     <div className="flex flex-col min-h-screen">
-      {/* Back to Admin Dashboard Button */}
       <button
         onClick={() => router.push("/admin")}
         className="text-blue-500 text-sm cursor-pointer bg-transparent border-none pt-10 pl-20 flex items-center"
@@ -57,7 +63,6 @@ function Hotels() {
 
       <div>
         <div>
-          {/* Title */}
           <div className="pt-10 pl-20 w-full text-3xl font-semibold ">
             Manage Hotels
           </div>
@@ -65,7 +70,6 @@ function Hotels() {
             manage booking listings
           </p>
         </div>
-        {/* Create Hotel Button */}
         <div className="flex justify-end p-4">
           <button
             onClick={handleCreateHotel}
@@ -76,20 +80,24 @@ function Hotels() {
         </div>
       </div>
 
-      {/* Hotel Cards List */}
-  
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-4">
-          {hotels.map((hotel: HotelData, index: number) => (
-            <ManageHotelCard
-              key={index}
-              hotel={hotel}
-              onEdit={handleEdit}
-              onDelete={handleDelete}
-            />
-          ))}
-        </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 p-4">
+        {hotels.map((hotel: HotelData, index: number) => (
+          <ManageHotelCard
+            key={index}
+            hotel={hotel}
+            onEdit={handleEdit}
+            onDelete={() => handleDeleteClick(hotel.id)}
+          />
+        ))}
       </div>
 
+      <DeleteConfirmationModal
+        open={deleteModalOpen}
+        onClose={() => setDeleteModalOpen(false)}
+        onConfirm={handleConfirmDelete}
+        itemName="this hotel"
+      />
+    </div>
   );
 }
 

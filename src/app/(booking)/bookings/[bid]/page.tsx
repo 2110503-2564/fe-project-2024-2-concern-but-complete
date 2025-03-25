@@ -16,6 +16,7 @@ import DateReserve from "@/components/DateReserve";
 import { getBookingById, updateBooking } from "@/libs/bookingService";
 import { useSession } from "next-auth/react";
 import { BookingData } from "../../../../../interface";
+import SuccessfulPopup from "@/components/SuccessfulPopup";
 
 function calculateNights(checkIn: string, checkOut: string): number {
   const checkInDate = new Date(checkIn);
@@ -33,6 +34,7 @@ export default function BookingDetailPage({
   const router = useRouter();
   const { data: session } = useSession();
   const [booking, setBooking] = useState<BookingData>();
+  const [successOpen, setSuccessOpen] = useState(false);
 
   useEffect(() => {
     const fetchDetails = async () => {
@@ -69,14 +71,17 @@ export default function BookingDetailPage({
         endDate.add(1, "day").toISOString(),
         (session as any)?.token
       );
-      response && setBooking((prevBooking) => {
-        if (!prevBooking) return prevBooking;
-        return {
-          ...prevBooking,
-          start_date: startDate.add(1, "day").toISOString(),
-          end_date: endDate.add(1, "day").toISOString(),
-        };
-      });
+      if(response){
+        setBooking((prevBooking) => {
+          if (!prevBooking) return prevBooking;
+          return {
+            ...prevBooking,
+            start_date: startDate.add(1, "day").toISOString(),
+            end_date: endDate.add(1, "day").toISOString(),
+          };
+        });
+        setSuccessOpen(true);
+      } 
     }
   };
 
@@ -99,7 +104,7 @@ export default function BookingDetailPage({
   }
 
   return (
-    <main className="bg-white p-10">
+    <main className="bg-bg p-10">
       <div>
         <button
           onClick={() => router.back()}
@@ -114,7 +119,7 @@ export default function BookingDetailPage({
 
       <div className="flex justify-between">
         <div className="w-3/4">
-          <div className="info-section shadow-[0_0_3px_0_rgba(0,0,0,0.2)] p-5 rounded-xl mr-5 h-45 ">
+          <div className="bg-white info-section shadow-[0_0_3px_0_rgba(0,0,0,0.2)] p-5 rounded-xl mr-5 h-45 ">
             <h3 className="text-2xl font-semibold mb-3">Hotel Information</h3>
             <p className=" mb-2 text-lg flex items-center">
               <Building2 className="w-5 h-5 mr-2" />
@@ -130,7 +135,7 @@ export default function BookingDetailPage({
             </p>
           </div>
           <div className="flex justify-between h-50">
-            <div className="info-section m-5 ml-0 w-1/2 shadow-[0_0_3px_0_rgba(0,0,0,0.2)] p-5 rounded-xl">
+            <div className="bg-white info-section m-5 ml-0 w-1/2 shadow-[0_0_3px_0_rgba(0,0,0,0.2)] p-5 rounded-xl">
               <h3 className="text-lg font-semibold mb-2">Stay Details</h3>
               <p className="mb-1 flex items-center">
                 <Calendar className="w-5 h-5 mr-2" />
@@ -148,7 +153,7 @@ export default function BookingDetailPage({
                 {calculateNights(booking.start_date, booking.end_date)} Nights
               </p>
             </div>
-            <div className="info-section m-5 ml-0 w-1/2 shadow-[0_0_3px_0_rgba(0,0,0,0.2)] p-5 rounded-xl">
+            <div className="bg-white info-section m-5 ml-0 w-1/2 shadow-[0_0_3px_0_rgba(0,0,0,0.2)] p-5 rounded-xl">
               <h3 className="text-lg font-semibold mb-2">Guest Information</h3>
               <p className="flex items-center font-bold">
                 <User className="w-5 h-5 mr-2 mb-2" />
@@ -166,7 +171,7 @@ export default function BookingDetailPage({
           </div>
         </div>
 
-        <div className="w-70 p-5 rounded-xl shadow-[0_0_3px_0_rgba(0,0,0,0.2)] h-75">
+        <div className="bg-white w-70 p-5 rounded-xl shadow-[0_0_3px_0_rgba(0,0,0,0.2)] h-75">
           <h3 className="text-lg font-semibold ">Edit Booking</h3>
           <p className="text-sm font-medium">Check-in</p>
           <DateReserve
@@ -189,6 +194,11 @@ export default function BookingDetailPage({
           </button>
         </div>
       </div>
+      <SuccessfulPopup
+      open={successOpen}
+      onClose={() => setSuccessOpen(false)}
+      type="update"
+      />
     </main>
   );
 }

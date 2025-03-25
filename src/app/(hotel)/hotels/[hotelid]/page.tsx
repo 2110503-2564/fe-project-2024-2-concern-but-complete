@@ -9,6 +9,7 @@ import { HotelData } from "../../../../../interface";
 import { useRouter } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { createBooking } from "@/libs/bookingService";
+import SuccessfulPopup from "@/components/SuccessfulPopup";
 
 export default function HotelDetailPage({params}: {params: {hotelid: string}}) {
   const {data:session} = useSession();
@@ -17,6 +18,7 @@ export default function HotelDetailPage({params}: {params: {hotelid: string}}) {
   const [startDate, setStartDate] = useState<Dayjs | null>(null);
   const [endDate, setEndDate] = useState<Dayjs | null>(null);
   const [hotel, setHotel] = useState<HotelData | null>(null);
+  const [successfulOpen, setSuccessfulOpen] = useState(false);
 
   useEffect(() => {
     const fetchHotel = async () => {
@@ -68,12 +70,16 @@ export default function HotelDetailPage({params}: {params: {hotelid: string}}) {
       const endDateISO = endDate.toISOString();
 
       const newBooking = await createBooking(params.hotelid, startDateISO, endDateISO, (session as any)?.token);
-      alert('Booking successful!');
-      router.push('/user/bookings');
+      setSuccessfulOpen(true);
 
     }catch(error){
       console.log('Error creating booking:', error);
     }
+  }
+
+  const handleSuccessfulClose = () => {
+    setSuccessfulOpen(false);
+    router.push('/user/bookings');
   }
 
   const addressText = hotel?.address
@@ -141,6 +147,10 @@ export default function HotelDetailPage({params}: {params: {hotelid: string}}) {
           </div>
         )}
       </div>
+      <SuccessfulPopup
+      open={successfulOpen}
+      onClose={handleSuccessfulClose}
+      />
     </main>
   );
 }

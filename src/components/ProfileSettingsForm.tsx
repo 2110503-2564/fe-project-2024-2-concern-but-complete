@@ -3,6 +3,7 @@ import { updateUser } from "@/libs/authService";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import SuccessfulPopup from "./SuccessfulPopup";
 
 function ProfileSettingsForm({
   email,
@@ -17,20 +18,20 @@ function ProfileSettingsForm({
   const [phone, setPhone] = useState(tel);
   const router = useRouter();
   const { data: session } = useSession();
+  const [successOpen, setSuccessOpen] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     updateUser({ name: fullName, tel: phone }, (session as any)?.token).then(
       (res) => {
-        if (res) {
-          alert("Profile updated successfully");
-          router.push("/user");
-        } else {
-          alert("Profile update failed");
-        }
+          setSuccessOpen(true);
       }
     );
   };
+
+  const handleRedirect = () => {
+    router.push('/user')
+  }
 
   return (
     <div className="max-w-lg mx-auto p-6 bg-white rounded-lg shadow-[0_0_3px_0_rgba(0,0,0,0.4)] m-20">
@@ -73,6 +74,12 @@ function ProfileSettingsForm({
           Save Changes
         </button>
       </form>
+      <SuccessfulPopup
+        open={successOpen}
+        onClose={() => setSuccessOpen(false)}
+        type="update"
+        redirectAction={handleRedirect}
+      />
     </div>
   );
 }
